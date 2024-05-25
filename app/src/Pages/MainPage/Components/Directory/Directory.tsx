@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import DirectoryData from '../../Types/DirectoryData';
 import FileData from '../../Types/FileData';
+import {
+  IoIosArrowDown,
+  IoIosArrowForward,
+  IoIosFolder,
+  IoIosFolderOpen,
+} from 'react-icons/io';
 
 const WIDTH_GAP: string = '50px';
 
@@ -17,7 +23,20 @@ const Directory = ({ dirData }: Props) => {
         onClick={() => setOpen((curr) => !curr)}
         className="select-none cursor-pointer w-full text-2xl"
       >
-        {dirData.name}
+        <div className="flex items-center gap-1">
+          {isOpen ? (
+            <>
+              <IoIosArrowDown />
+              <IoIosFolderOpen />
+            </>
+          ) : (
+            <>
+              <IoIosArrowForward />
+              <IoIosFolder />
+            </>
+          )}
+          {dirData.name}
+        </div>
       </div>
       {isOpen && (
         <div style={{ width: `calc(100% - ${WIDTH_GAP})` }}>

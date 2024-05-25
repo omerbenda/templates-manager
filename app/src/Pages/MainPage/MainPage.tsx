@@ -16,6 +16,18 @@ const DIR_DATA: DirectoryData = {
         },
       ],
     },
+    {
+      name: 'Dir3',
+      subdirs: [],
+      files: [
+        {
+          name: 'File5',
+        },
+        {
+          name: 'File6',
+        },
+      ],
+    },
   ],
   files: [
     {
