@@ -1,4 +1,5 @@
 import Directory from './Components/Directory/Directory';
+import Sidebar from './Components/Sidebar/Sidebar';
 import DirectoryData from './Types/DirectoryData';
 
 const DIR_DATA: DirectoryData = {
@@ -41,8 +42,13 @@ const DIR_DATA: DirectoryData = {
 
 const MainPage = () => {
   return (
-    <div className="w-full">
-      <Directory dirData={DIR_DATA} />
+    <div className="flex w-full h-full gap-1">
+      <div className="w-44 h-full">
+        <Sidebar />
+      </div>
+      <div className="flex-grow">
+        <Directory dirData={DIR_DATA} />
+      </div>
     </div>
   );
 };
