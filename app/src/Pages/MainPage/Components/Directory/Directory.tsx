@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import DirectoryData from '../../Types/DirectoryData';
 import FileData from '../../Types/FileData';
-import {
-  IoIosArrowDown,
-  IoIosArrowForward,
-  IoIosFolder,
-  IoIosFolderOpen,
-} from 'react-icons/io';
+import { IoIosArrowForward, IoIosDocument } from 'react-icons/io';
 
 const WIDTH_GAP: string = '50px';
 
@@ -24,17 +19,13 @@ const Directory = ({ dirData }: Props) => {
         className="select-none cursor-pointer w-full text-2xl"
       >
         <div className="flex items-center gap-1">
-          {isOpen ? (
-            <>
-              <IoIosArrowDown />
-              <IoIosFolderOpen />
-            </>
-          ) : (
-            <>
-              <IoIosArrowForward />
-              <IoIosFolder />
-            </>
-          )}
+          <div
+            className={`flex flex-col transform duration-300 ${
+              isOpen ? 'rotate-90' : 'rotate-0'
+            }`}
+          >
+            <IoIosArrowForward />
+          </div>
           {dirData.name}
         </div>
       </div>
@@ -44,8 +35,11 @@ const Directory = ({ dirData }: Props) => {
             <Directory dirData={subdir} key={subdir.name} />
           ))}
           {dirData.files.map((file: FileData) => (
-            <div className="select-none w-full text-2xl" key={file.name}>
-              {file.name}
+            <div
+              className="flex items-center select-none w-full text-2xl gap-1"
+              key={file.name}
+            >
+              <IoIosDocument /> {file.name}
             </div>
           ))}
         </div>
