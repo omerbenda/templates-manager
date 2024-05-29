@@ -1,12 +1,12 @@
-import Template from '../../Types/Template';
-
 type Props = {
-  template: Template;
+  children: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const TemplateButton = ({ template }: Props) => {
+const SidebarButton = ({ children, onClick }: Props) => {
   return (
     <div
+      onClick={onClick}
       className="
         flex flex-col
         justify-center items-center
@@ -17,9 +17,9 @@ const TemplateButton = ({ template }: Props) => {
         bg-gray-200 hover:bg-gray-300
       "
     >
-      {template.name}
+      {children}
     </div>
   );
 };
 
-export default TemplateButton;
+export default SidebarButton;
