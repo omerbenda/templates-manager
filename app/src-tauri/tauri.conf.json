@@ -17,8 +17,13 @@
         "open": true
       },
       "fs": {
-        "all": true,
+        "all": false,
+        "readDir": true,
         "scope": ["**"]
+      },
+      "dialog": {
+        "all": false,
+        "open": true
       }
     },
     "windows": [
