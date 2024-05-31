@@ -4,7 +4,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
 import DirectoryData from './Types/DirectoryData';
 import Template from './Types/Template';
 import { BaseDirectory, FileEntry, readDir } from '@tauri-apps/api/fs';
-import { open } from '@tauri-apps/api/dialog';
+import Modal from '../../Common/Components/Modal/Modal';
 
 const DIR_DATA: DirectoryData = {
   name: 'Dir1',
@@ -46,6 +46,8 @@ const DIR_DATA: DirectoryData = {
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
+  const [newTemplateModalOpen, setNewTemplateModalOpen] =
+    useState<boolean>(true);
 
   const fetchTemplates = async () => {
     const dirs: FileEntry[] = await readDir('', { dir: BaseDirectory.AppData });
@@ -55,9 +57,10 @@ const MainPage = () => {
   };
 
   const newTemplateHandler = async () => {
-    const selected = await open({ directory: true });
+    // const selected = await open({ directory: true });
 
-    console.log(selected);
+    // console.log(selected);
+    setNewTemplateModalOpen(true);
   };
 
   useEffect(() => {
@@ -72,6 +75,21 @@ const MainPage = () => {
       <div className="flex-grow">
         <Directory dirData={DIR_DATA} />
       </div>
+      <Modal
+        open={newTemplateModalOpen}
+        closeHandler={() => setNewTemplateModalOpen(false)}
+      >
+        <div
+          className="
+            relative left-1/2 top-1/2
+            -translate-x-1/2 -translate-y-1/2
+            rounded border-black border-2
+            w-1/2 h-1/2
+          "
+        >
+          <div>test</div>
+        </div>
+      </Modal>
     </div>
   );
 };
