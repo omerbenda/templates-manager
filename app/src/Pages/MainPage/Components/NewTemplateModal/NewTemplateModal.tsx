@@ -29,7 +29,7 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
     validateInput();
   }, [path, name]);
 
-  const isInputValid = [isPathValid, isNameValid].every(Boolean);
+  const isInputValid = isPathValid && isNameValid;
 
   return (
     <Modal open={open} closeHandler={closeHandler}>
