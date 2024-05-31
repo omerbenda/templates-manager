@@ -1,4 +1,5 @@
 import { open } from '@tauri-apps/api/dialog';
+import TextInput from '../TextInput/TextInput';
 
 type Props = {
   value: string;
@@ -23,16 +24,14 @@ const DirectoryInput = ({
 
   return (
     <div className="flex flex-wrap w-full">
-      <input
-        type="text"
-        onChange={(e) => onPathChange(e.target.value)}
-        value={value}
-        placeholder={placeholder}
-        className={`grow shadow rounded rounded-r-none text-gray-700 font-medium p-1 focus:outline-none border-2 ${
-          isValid !== false
-            ? 'border-black focus:border-black'
-            : 'border-red-600 focus:border-red-800'
-        }`}
+      <TextInput
+        isValid={isValid}
+        inputProps={{
+          value: value,
+          placeholder: placeholder,
+          onChange: (e) => onPathChange(e.target.value),
+        }}
+        className="rounded-r-none"
       />
       <div
         onClick={chooseFolder}

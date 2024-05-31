@@ -3,6 +3,7 @@ import Modal from '../../../../Common/Components/Modal/Modal';
 import DirectoryInput from '../../../../Common/Components/DirectoryInput/DirectoryInput';
 import { useEffect, useState } from 'react';
 import { BaseDirectory, exists } from '@tauri-apps/api/fs';
+import TextInput from '../../../../Common/Components/TextInput/TextInput';
 
 type Props = {
   open: boolean;
@@ -54,16 +55,13 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
           </div>
           <div className="flex flex-col grow w-3/4 gap-2">
             <div className="flex flex-wrap w-full">
-              <input
-                type="text"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                placeholder="Template Name"
-                className={`grow shadow text-gray-700 font-medium p-1 rounded focus:outline-none border-2 ${
-                  isNameValid !== false
-                    ? 'border-black focus:border-black'
-                    : 'border-red-600 focus:border-red-800'
-                }`}
+              <TextInput
+                isValid={isNameValid}
+                inputProps={{
+                  value: name,
+                  placeholder: 'Template Name',
+                  onChange: (e) => setName(e.target.value),
+                }}
               />
             </div>
             <DirectoryInput
