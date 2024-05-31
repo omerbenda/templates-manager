@@ -53,10 +53,15 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
                 type="text"
                 onChange={(e) => setName(e.target.value)}
                 value={name}
-                className="grow shadow text-gray-700 font-medium"
+                placeholder="Template Name"
+                className="grow shadow text-gray-700 font-medium p-1"
               />
             </div>
-            <DirectoryInput value={path} onPathChange={setPath} />
+            <DirectoryInput
+              value={path}
+              onPathChange={setPath}
+              placeholder="Path to New Template"
+            />
           </div>
           <button
             onClick={() => onCreateTemplate(name, path)}

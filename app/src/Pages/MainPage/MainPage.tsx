@@ -55,7 +55,7 @@ const DIR_DATA: DirectoryData = {
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [newTemplateModalOpen, setNewTemplateModalOpen] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   const fetchTemplates = async () => {
     if (await exists('', { dir: BaseDirectory.AppData })) {
