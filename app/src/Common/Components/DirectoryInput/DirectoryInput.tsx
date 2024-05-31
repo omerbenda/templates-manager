@@ -3,10 +3,16 @@ import { open } from '@tauri-apps/api/dialog';
 type Props = {
   value: string;
   placeholder?: string;
+  isValid?: boolean;
   onPathChange: (path: string) => void;
 };
 
-const DirectoryInput = ({ value, placeholder, onPathChange }: Props) => {
+const DirectoryInput = ({
+  value,
+  placeholder,
+  isValid,
+  onPathChange,
+}: Props) => {
   const chooseFolder = async () => {
     const selected = await open({ directory: true, multiple: false });
 
@@ -22,7 +28,11 @@ const DirectoryInput = ({ value, placeholder, onPathChange }: Props) => {
         onChange={(e) => onPathChange(e.target.value)}
         value={value}
         placeholder={placeholder}
-        className="grow shadow rounded-r-none text-gray-700 font-medium p-1"
+        className={`grow shadow rounded rounded-r-none text-gray-700 font-medium p-1 focus:outline-none border-2 ${
+          isValid !== false
+            ? 'border-black focus:border-black'
+            : 'border-red-600 focus:border-red-800'
+        }`}
       />
       <div
         onClick={chooseFolder}

@@ -12,19 +12,23 @@ type Props = {
 
 const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
   const [path, setPath] = useState<string>('');
+  const [isPathValid, setPathValid] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
-  const [isInputValid, setInputValid] = useState<boolean>(false);
+  const [isNameValid, setNameValid] = useState<boolean>(false);
 
   const validateInput = async () => {
     const pathExists = await exists(path);
     const nameExists = await exists(name, { dir: BaseDirectory.AppData });
 
-    setInputValid(pathExists && !nameExists);
+    setPathValid(pathExists);
+    setNameValid(!nameExists);
   };
 
   useEffect(() => {
     validateInput();
   }, [path, name]);
+
+  const isInputValid = [isPathValid, isNameValid].every(Boolean);
 
   return (
     <Modal open={open} closeHandler={closeHandler}>
@@ -55,13 +59,18 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
                 onChange={(e) => setName(e.target.value)}
                 value={name}
                 placeholder="Template Name"
-                className="grow shadow text-gray-700 font-medium p-1"
+                className={`grow shadow text-gray-700 font-medium p-1 rounded focus:outline-none border-2 ${
+                  isNameValid !== false
+                    ? 'border-black focus:border-black'
+                    : 'border-red-600 focus:border-red-800'
+                }`}
               />
             </div>
             <DirectoryInput
               value={path}
               onPathChange={setPath}
               placeholder="Path to New Template"
+              isValid={isPathValid}
             />
           </div>
           <button
