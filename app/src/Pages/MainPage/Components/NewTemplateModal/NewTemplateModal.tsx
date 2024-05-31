@@ -2,7 +2,7 @@ import { IoIosClose } from 'react-icons/io';
 import Modal from '../../../../Common/Components/Modal/Modal';
 import DirectoryInput from '../../../../Common/Components/DirectoryInput/DirectoryInput';
 import { useEffect, useState } from 'react';
-import { exists } from '@tauri-apps/api/fs';
+import { BaseDirectory, exists } from '@tauri-apps/api/fs';
 
 type Props = {
   open: boolean;
@@ -17,13 +17,14 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
 
   const validateInput = async () => {
     const pathExists = await exists(path);
+    const nameExists = await exists(name, { dir: BaseDirectory.AppData });
 
-    setInputValid(pathExists);
+    setInputValid(pathExists && !nameExists);
   };
 
   useEffect(() => {
     validateInput();
-  }, [path]);
+  }, [path, name]);
 
   return (
     <Modal open={open} closeHandler={closeHandler}>
@@ -68,11 +69,11 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
             disabled={!isInputValid}
             className={`
               rounded p-3 select-none
-              cursor-pointer duration-100
+              duration-100
               ${
                 isInputValid
-                  ? 'bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-white'
-                  : 'bg-gray-300 text-gray-400'
+                  ? 'bg-purple-500 hover:bg-purple-600 active:bg-purple-700 cursor-pointer text-white'
+                  : 'bg-gray-300 text-gray-400 cursor-not-allowed'
               }
             `}
           >
