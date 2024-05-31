@@ -2,6 +2,7 @@ import { IoIosClose } from 'react-icons/io';
 import Modal from '../../../../Common/Components/Modal/Modal';
 import DirectoryInput from '../../../../Common/Components/DirectoryInput/DirectoryInput';
 import { useEffect, useState } from 'react';
+import { exists } from '@tauri-apps/api/fs';
 
 type Props = {
   open: boolean;
@@ -10,9 +11,16 @@ type Props = {
 
 const NewTemplateModal = ({ open, closeHandler }: Props) => {
   const [path, setPath] = useState<string>('');
+  const [isInputValid, setInputValid] = useState<boolean>(false);
+
+  const validateInput = async () => {
+    const pathExists = await exists(path);
+
+    setInputValid(pathExists);
+  };
 
   useEffect(() => {
-    console.log(path);
+    validateInput();
   }, [path]);
 
   return (
@@ -40,16 +48,21 @@ const NewTemplateModal = ({ open, closeHandler }: Props) => {
           <div className="grow w-3/4">
             <DirectoryInput value={path} onPathChange={setPath} />
           </div>
-          <div
+          <button
             onClick={closeHandler}
-            className="
-              rounded p-3 select-none text-white
+            disabled
+            className={`
+              rounded p-3 select-none
               cursor-pointer duration-100
-              bg-purple-500 hover:bg-purple-600 active:bg-purple-700
-            "
+              ${
+                isInputValid
+                  ? 'bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-white'
+                  : 'bg-gray-300 text-gray-400'
+              }
+            `}
           >
             Add Modal
-          </div>
+          </button>
         </div>
       </div>
     </Modal>

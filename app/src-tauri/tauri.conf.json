@@ -19,6 +19,7 @@
       "fs": {
         "all": false,
         "readDir": true,
+        "exists": true,
         "scope": ["**"]
       },
       "dialog": {
