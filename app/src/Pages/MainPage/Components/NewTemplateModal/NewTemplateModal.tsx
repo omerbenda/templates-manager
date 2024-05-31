@@ -7,10 +7,12 @@ import { exists } from '@tauri-apps/api/fs';
 type Props = {
   open: boolean;
   closeHandler: () => void;
+  onCreateTemplate: (name: string, path: string) => void;
 };
 
-const NewTemplateModal = ({ open, closeHandler }: Props) => {
+const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
   const [path, setPath] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [isInputValid, setInputValid] = useState<boolean>(false);
 
   const validateInput = async () => {
@@ -45,12 +47,20 @@ const NewTemplateModal = ({ open, closeHandler }: Props) => {
               />
             </div>
           </div>
-          <div className="grow w-3/4">
+          <div className="flex flex-col grow w-3/4 gap-2">
+            <div className="flex flex-wrap w-full">
+              <input
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                className="grow shadow text-gray-700 font-medium"
+              />
+            </div>
             <DirectoryInput value={path} onPathChange={setPath} />
           </div>
           <button
-            onClick={closeHandler}
-            disabled
+            onClick={() => onCreateTemplate(name, path)}
+            disabled={!isInputValid}
             className={`
               rounded p-3 select-none
               cursor-pointer duration-100

@@ -3,7 +3,14 @@ import Directory from './Components/Directory/Directory';
 import Sidebar from './Components/Sidebar/Sidebar';
 import DirectoryData from './Types/DirectoryData';
 import Template from './Types/Template';
-import { BaseDirectory, FileEntry, readDir } from '@tauri-apps/api/fs';
+import {
+  BaseDirectory,
+  copyFile,
+  createDir,
+  exists,
+  FileEntry,
+  readDir,
+} from '@tauri-apps/api/fs';
 import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
 
 const DIR_DATA: DirectoryData = {
@@ -50,10 +57,26 @@ const MainPage = () => {
     useState<boolean>(true);
 
   const fetchTemplates = async () => {
-    const dirs: FileEntry[] = await readDir('', { dir: BaseDirectory.AppData });
-    setTemplates(
-      dirs.map<Template>((dir) => ({ path: dir.path, name: dir.name || '' }))
-    );
+    if (!exists('', { dir: BaseDirectory.AppData })) {
+      const dirs: FileEntry[] = await readDir('', {
+        dir: BaseDirectory.AppData,
+      });
+      setTemplates(
+        dirs.map<Template>((dir) => ({ path: dir.path, name: dir.name || '' }))
+      );
+    }
+  };
+
+  const createTemplate = async (name: string, path: string) => {
+    const dirs = await readDir(path, { recursive: true });
+
+    if (!(await exists('', { dir: BaseDirectory.AppData }))) {
+      await createDir('', { dir: BaseDirectory.AppData, recursive: true });
+    }
+
+    await createDir(name, { dir: BaseDirectory.AppData });
+
+    setNewTemplateModalOpen(false);
   };
 
   useEffect(() => {
@@ -74,6 +97,7 @@ const MainPage = () => {
       <NewTemplateModal
         open={newTemplateModalOpen}
         closeHandler={() => setNewTemplateModalOpen(false)}
+        onCreateTemplate={createTemplate}
       />
     </div>
   );

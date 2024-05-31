@@ -1,5 +1,4 @@
 import { open } from '@tauri-apps/api/dialog';
-import { useRef } from 'react';
 
 type Props = {
   value: string;
@@ -7,8 +6,6 @@ type Props = {
 };
 
 const DirectoryInput = ({ value, onPathChange }: Props) => {
-  const pathInput = useRef<HTMLInputElement>(null);
-
   const chooseFolder = async () => {
     const selected = await open({ directory: true, multiple: false });
 
@@ -20,7 +17,6 @@ const DirectoryInput = ({ value, onPathChange }: Props) => {
   return (
     <div className="flex flex-wrap w-full">
       <input
-        ref={pathInput}
         type="text"
         onChange={(e) => onPathChange(e.target.value)}
         value={value}

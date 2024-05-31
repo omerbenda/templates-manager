@@ -20,6 +20,7 @@
         "all": false,
         "readDir": true,
         "exists": true,
+        "createDir": true,
         "scope": ["**"]
       },
       "dialog": {
