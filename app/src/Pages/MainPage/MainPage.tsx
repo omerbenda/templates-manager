@@ -4,7 +4,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
 import DirectoryData from './Types/DirectoryData';
 import Template from './Types/Template';
 import { BaseDirectory, FileEntry, readDir } from '@tauri-apps/api/fs';
-import Modal from '../../Common/Components/Modal/Modal';
+import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
 
 const DIR_DATA: DirectoryData = {
   name: 'Dir1',
@@ -75,21 +75,10 @@ const MainPage = () => {
       <div className="flex-grow">
         <Directory dirData={DIR_DATA} />
       </div>
-      <Modal
+      <NewTemplateModal
         open={newTemplateModalOpen}
         closeHandler={() => setNewTemplateModalOpen(false)}
-      >
-        <div
-          className="
-            relative left-1/2 top-1/2
-            -translate-x-1/2 -translate-y-1/2
-            rounded border-black border-2
-            w-1/2 h-1/2
-          "
-        >
-          <div>test</div>
-        </div>
-      </Modal>
+      />
     </div>
   );
 };

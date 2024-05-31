@@ -16,9 +16,12 @@ const Modal = ({ open, closeHandler, children }: Props) => {
   return (
     <div
       onClick={handleClick}
-      className={`absolute w-full h-full duration-100 ${
-        open ? 'visible opacity-100' : 'invisible opacity-0'
-      }`}
+      className={`
+        absolute w-full h-full
+        bg-black bg-opacity-25
+        duration-100 ease-in
+        ${open ? 'visible opacity-100' : 'invisible opacity-0'}
+      `}
     >
       {children}
     </div>
