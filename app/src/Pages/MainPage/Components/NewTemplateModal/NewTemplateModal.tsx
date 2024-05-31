@@ -29,7 +29,7 @@ const NewTemplateModal = ({ open, closeHandler }: Props) => {
         <div className="flex flex-col items-center w-full h-full p-1 gap-2">
           <div className="grid grid-cols-3 items-center w-full">
             <div />
-            <div className="text-center text-xl">New Template</div>
+            <div className="text-center text-xl font-bold">New Template</div>
             <div className="flex justify-end">
               <IoIosClose
                 onClick={closeHandler}
@@ -43,7 +43,7 @@ const NewTemplateModal = ({ open, closeHandler }: Props) => {
           <div
             onClick={closeHandler}
             className="
-              rounded p-3 select-none
+              rounded p-3 select-none text-white
               cursor-pointer duration-100
               bg-purple-500 hover:bg-purple-600 active:bg-purple-700
             "
