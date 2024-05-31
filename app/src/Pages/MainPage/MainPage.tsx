@@ -75,7 +75,7 @@ const MainPage = () => {
           onNewTemplate={() => setNewTemplateModalOpen(true)}
         />
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow h-full">
         <TemplateViewer template={currTemplate} />
       </div>
       <NewTemplateModal

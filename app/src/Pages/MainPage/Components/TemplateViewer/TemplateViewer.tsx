@@ -60,8 +60,10 @@ const TemplateViewer = ({ template }: Props) => {
   }, [template]);
 
   return (
-    <div className="w-full h-full">
-      {dirData && <Directory dirData={dirData} />}
+    <div className="overflow-y-hidden w-full h-full">
+      <div className="overflow-y-auto w-full h-full pb-2">
+        {dirData && <Directory dirData={dirData} />}
+      </div>
     </div>
   );
 };
