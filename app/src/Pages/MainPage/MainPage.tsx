@@ -58,7 +58,7 @@ const MainPage = () => {
     useState<boolean>(true);
 
   const fetchTemplates = async () => {
-    if (!exists('', { dir: BaseDirectory.AppData })) {
+    if (await exists('', { dir: BaseDirectory.AppData })) {
       const dirs: FileEntry[] = await readDir('', {
         dir: BaseDirectory.AppData,
       });
@@ -79,6 +79,7 @@ const MainPage = () => {
       await path.join(await path.appDataDir(), name)
     );
 
+    fetchTemplates();
     setNewTemplateModalOpen(false);
   };
 
