@@ -56,13 +56,6 @@ const MainPage = () => {
     );
   };
 
-  const newTemplateHandler = async () => {
-    // const selected = await open({ directory: true });
-
-    // console.log(selected);
-    setNewTemplateModalOpen(true);
-  };
-
   useEffect(() => {
     fetchTemplates();
   }, []);
@@ -70,7 +63,10 @@ const MainPage = () => {
   return (
     <div className="flex w-full h-full gap-1">
       <div className="w-44 h-full">
-        <Sidebar templates={templates} onNewTemplate={newTemplateHandler} />
+        <Sidebar
+          templates={templates}
+          onNewTemplate={() => setNewTemplateModalOpen(true)}
+        />
       </div>
       <div className="flex-grow">
         <Directory dirData={DIR_DATA} />
