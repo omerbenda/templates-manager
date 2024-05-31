@@ -12,6 +12,7 @@ import {
   readDir,
 } from '@tauri-apps/api/fs';
 import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
+import { path } from '@tauri-apps/api';
 
 const DIR_DATA: DirectoryData = {
   name: 'Dir1',
@@ -67,16 +68,35 @@ const MainPage = () => {
     }
   };
 
-  const createTemplate = async (name: string, path: string) => {
-    const dirs = await readDir(path, { recursive: true });
-
+  const createTemplate = async (name: string, originPath: string) => {
     if (!(await exists('', { dir: BaseDirectory.AppData }))) {
       await createDir('', { dir: BaseDirectory.AppData, recursive: true });
     }
 
     await createDir(name, { dir: BaseDirectory.AppData });
+    await copyFromPath(
+      originPath,
+      await path.join(await path.appDataDir(), name)
+    );
 
     setNewTemplateModalOpen(false);
+  };
+
+  const copyFromPath = async (origin: string, destination: string) => {
+    const contents: FileEntry[] = await readDir(origin);
+
+    contents.forEach(async (entry: FileEntry) => {
+      if (entry.name) {
+        const newPath = await path.join(destination, entry.name);
+
+        if (entry.children) {
+          await createDir(newPath);
+          await copyFromPath(entry.path, newPath);
+        } else {
+          await copyFile(entry.path, newPath);
+        }
+      }
+    });
   };
 
   useEffect(() => {

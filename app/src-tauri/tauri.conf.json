@@ -21,11 +21,15 @@
         "readDir": true,
         "exists": true,
         "createDir": true,
+        "copyFile": true,
         "scope": ["**"]
       },
       "dialog": {
         "all": false,
         "open": true
+      },
+      "path": {
+        "all": true
       }
     },
     "windows": [
