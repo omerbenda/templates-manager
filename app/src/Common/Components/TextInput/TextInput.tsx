@@ -1,7 +1,7 @@
 type Props = {
   isValid?: boolean;
   className?: string;
-  inputProps: React.DetailedHTMLProps<
+  inputProps?: React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   >;

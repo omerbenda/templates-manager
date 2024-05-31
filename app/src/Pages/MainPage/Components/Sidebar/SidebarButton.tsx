@@ -1,13 +1,16 @@
 type Props = {
+  className?: string;
+  buttonProps?: React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >;
   children: React.ReactNode;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const SidebarButton = ({ children, onClick }: Props) => {
+const SidebarButton = ({ className, buttonProps, children }: Props) => {
   return (
-    <div
-      onClick={onClick}
-      className="
+    <button
+      className={`
         flex flex-col
         justify-center items-center
         min-h-16
@@ -15,10 +18,12 @@ const SidebarButton = ({ children, onClick }: Props) => {
         duration-300
         border-b-2 border-gray-500
         bg-gray-200 hover:bg-gray-300 active:bg-gray-400
-      "
+        ${className || ''}
+      `}
+      {...buttonProps}
     >
       {children}
-    </div>
+    </button>
   );
 };
 
