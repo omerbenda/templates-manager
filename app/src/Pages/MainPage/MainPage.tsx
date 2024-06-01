@@ -67,8 +67,8 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div className="flex w-full h-full gap-1">
-      <div className="w-44 h-full">
+    <div className="flex overflow-hidden w-full h-full gap-1">
+      <div className="w-44 min-w-44 h-full">
         <Sidebar
           templates={templates}
           onTemplateSelected={setCurrTemplate}
