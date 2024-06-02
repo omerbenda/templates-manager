@@ -12,6 +12,7 @@ import {
 import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
 import { path } from '@tauri-apps/api';
 import TemplateViewer from './Components/TemplateViewer/TemplateViewer';
+import ActionsRow from './Components/ActionsRow/ActionsRow';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -67,16 +68,21 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div className="flex overflow-hidden w-full h-full gap-1">
-      <div className="w-44 min-w-44 h-full">
+    <div className="flex overflow-hidden w-full h-full">
+      <div className="border-r-2 border-neutral-600 w-44 min-w-44 h-full">
         <Sidebar
           templates={templates}
           onTemplateSelected={setCurrTemplate}
           onNewTemplate={() => setNewTemplateModalOpen(true)}
         />
       </div>
-      <div className="flex-grow h-full">
-        <TemplateViewer template={currTemplate} />
+      <div className="flex flex-col flex-grow h-full">
+        <div className="h-4/5">
+          <TemplateViewer template={currTemplate} />
+        </div>
+        <div className="border-t-2 border-neutral-600 h-1/5">
+          <ActionsRow />
+        </div>
       </div>
       <NewTemplateModal
         open={newTemplateModalOpen}
