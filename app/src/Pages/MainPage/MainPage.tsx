@@ -8,6 +8,7 @@ import {
   exists,
   FileEntry,
   readDir,
+  removeDir,
 } from '@tauri-apps/api/fs';
 import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
 import { path } from '@tauri-apps/api';
@@ -63,6 +64,17 @@ const MainPage = () => {
     });
   };
 
+  const deleteTemplate = async () => {
+    if (currTemplate) {
+      await removeDir(currTemplate.name, {
+        dir: BaseDirectory.AppData,
+        recursive: true,
+      });
+      await fetchTemplates();
+      setCurrTemplate(undefined);
+    }
+  };
+
   useEffect(() => {
     fetchTemplates();
   }, []);
@@ -77,12 +89,27 @@ const MainPage = () => {
         />
       </div>
       <div className="flex flex-col flex-grow h-full">
-        <div className="h-4/5">
-          <TemplateViewer template={currTemplate} />
-        </div>
-        <div className="border-t-2 border-neutral-600 h-1/5">
-          <ActionsRow />
-        </div>
+        {currTemplate ? (
+          <>
+            <div className="h-4/5">
+              <TemplateViewer template={currTemplate} />
+            </div>
+            <div className="border-t-2 border-neutral-600 h-1/5">
+              <ActionsRow onTemplateDelete={deleteTemplate} />
+            </div>
+          </>
+        ) : (
+          <div
+            className="
+              flex justify-center items-center
+              text-gray-400 font-bold
+              select-none 
+              w-full h-full
+            "
+          >
+            Please select or create a template
+          </div>
+        )}
       </div>
       <NewTemplateModal
         open={newTemplateModalOpen}
