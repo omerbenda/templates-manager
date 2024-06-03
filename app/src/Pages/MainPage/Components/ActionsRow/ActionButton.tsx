@@ -1,13 +1,11 @@
 type Props = {
   className?: string;
-  buttonProps?: React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >;
-  children?: React.ReactNode;
-};
+} & React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
 
-const ActionButton = ({ className, buttonProps, children }: Props) => {
+const ActionButton = ({ className, ...buttonProps }: Props) => {
   return (
     <button
       className={`
@@ -17,9 +15,7 @@ const ActionButton = ({ className, buttonProps, children }: Props) => {
         ${className || ''}
       `}
       {...buttonProps}
-    >
-      {children}
-    </button>
+    />
   );
 };
 
