@@ -7,17 +7,13 @@ type Props = {
   children?: React.ReactNode;
 };
 
-const SidebarButton = ({ className, buttonProps, children }: Props) => {
+const ActionButton = ({ className, buttonProps, children }: Props) => {
   return (
     <button
       className={`
-        flex flex-col
-        justify-center items-center
-        min-h-16
-        cursor-pointer select-none
-        duration-300
-        border-b-2 border-gray-500
-        bg-gray-200 hover:bg-gray-300 active:bg-gray-400
+      bg-slate-100 hover:bg-slate-200 active:bg-slate-300
+        duration-300 rounded-2xl select-none
+        p-3
         ${className || ''}
       `}
       {...buttonProps}
@@ -27,4 +23,4 @@ const SidebarButton = ({ className, buttonProps, children }: Props) => {
   );
 };
 
-export default SidebarButton;
+export default ActionButton;

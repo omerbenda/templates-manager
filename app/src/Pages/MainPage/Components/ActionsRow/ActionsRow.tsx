@@ -1,7 +1,12 @@
+import ActionButton from './ActionButton';
+
 const ActionsRow = () => {
   return (
-    <div className="flex">
-      <button>Delete</button>
+    <div className="w-full h-full">
+      <div className="flex justify-evenly items-center w-full h-full">
+        <ActionButton>Delete</ActionButton>
+        <ActionButton>Apply</ActionButton>
+      </div>
     </div>
   );
 };
