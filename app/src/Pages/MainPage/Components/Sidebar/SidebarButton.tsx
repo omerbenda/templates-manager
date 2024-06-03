@@ -1,11 +1,6 @@
-type Props = {
-  className?: string;
-} & React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
->;
+import CustomButtonProps from '../../../../Common/Types/CustomButtonProps';
 
-const SidebarButton = ({ className, ...buttonProps }: Props) => {
+const SidebarButton = ({ className, ...buttonProps }: CustomButtonProps) => {
   return (
     <button
       className={`

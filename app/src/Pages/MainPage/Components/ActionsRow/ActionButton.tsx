@@ -1,11 +1,6 @@
-type Props = {
-  className?: string;
-} & React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
->;
+import CustomButtonProps from '../../../../Common/Types/CustomButtonProps';
 
-const ActionButton = ({ className, ...buttonProps }: Props) => {
+const ActionButton = ({ className, ...buttonProps }: CustomButtonProps) => {
   return (
     <button
       className={`
