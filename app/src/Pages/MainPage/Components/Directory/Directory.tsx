@@ -39,7 +39,7 @@ const Directory = ({ dirData }: Props) => {
               className="flex items-center select-none w-full text-2xl gap-1"
               key={file.name}
             >
-              <IoIosDocument /> {file.name}
+              <IoIosDocument className="w-10 min-w-10" /> {file.name}
             </div>
           ))}
         </div>
