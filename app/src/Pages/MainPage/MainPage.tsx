@@ -14,6 +14,7 @@ import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
 import { path } from '@tauri-apps/api';
 import TemplateViewer from './Components/TemplateViewer/TemplateViewer';
 import ActionsRow from './Components/ActionsRow/ActionsRow';
+import { open } from '@tauri-apps/api/dialog';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -64,6 +65,23 @@ const MainPage = () => {
     });
   };
 
+  const onApplyAction = async () => {
+    if (currTemplate) {
+      const destination = (await open({ directory: true, multiple: false })) as
+        | string
+        | undefined;
+
+      if (destination) {
+        const destinationFolder = await path.join(
+          destination,
+          currTemplate.name
+        );
+        await createDir(destinationFolder);
+        await copyFromPath(currTemplate.path, destinationFolder);
+      }
+    }
+  };
+
   const deleteTemplate = async () => {
     if (currTemplate) {
       await removeDir(currTemplate.name, {
@@ -95,7 +113,10 @@ const MainPage = () => {
               <TemplateViewer template={currTemplate} />
             </div>
             <div className="border-t-2 border-neutral-600 h-1/5">
-              <ActionsRow onTemplateDelete={deleteTemplate} />
+              <ActionsRow
+                onTemplateApply={onApplyAction}
+                onTemplateDelete={deleteTemplate}
+              />
             </div>
           </>
         ) : (

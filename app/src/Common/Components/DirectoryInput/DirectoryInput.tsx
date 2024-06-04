@@ -15,10 +15,12 @@ const DirectoryInput = ({
   onPathChange,
 }: Props) => {
   const chooseFolder = async () => {
-    const selected = await open({ directory: true, multiple: false });
+    const selected = (await open({ directory: true, multiple: false })) as
+      | string
+      | undefined;
 
     if (selected) {
-      onPathChange(selected.toString());
+      onPathChange(selected);
     }
   };
 
