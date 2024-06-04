@@ -1,6 +1,10 @@
-import CustomButtonProps from '../../../../Common/Types/CustomButtonProps';
-
-const SidebarButton = ({ className, ...buttonProps }: CustomButtonProps) => {
+const SidebarButton = ({
+  className,
+  ...buttonProps
+}: React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>) => {
   return (
     <button
       className={`
