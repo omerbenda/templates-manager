@@ -98,8 +98,15 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div className="flex overflow-hidden w-full h-full">
-      <div className="border-r-2 border-neutral-600 w-44 min-w-44 h-full">
+    <div
+      className="
+        flex overflow-hidden
+        dark:bg-neutral-950 dark:text-neutral-300
+        w-full h-full
+        dark
+      "
+    >
+      <div className="border-r-2 border-neutral-900 w-44 min-w-44 h-full">
         <Sidebar
           templates={templates}
           onTemplateSelected={setCurrTemplate}
@@ -123,8 +130,8 @@ const MainPage = () => {
           <div
             className="
               flex justify-center items-center
-              text-gray-400 font-bold
-              select-none 
+              font-bold
+              select-none
               w-full h-full
             "
           >

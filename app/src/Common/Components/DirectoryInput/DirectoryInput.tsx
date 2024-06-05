@@ -40,6 +40,7 @@ const DirectoryInput = ({
         className="
           shadow select-none cursor-pointer duration-100
           bg-gray-100 hover:bg-gray-200 active:bg-gray-300
+          dark:bg-gray-700 dark:hover:bg-gray-800 dark:active:bg-gray-900
           rounded rounded-l-none
           p-1
         "
