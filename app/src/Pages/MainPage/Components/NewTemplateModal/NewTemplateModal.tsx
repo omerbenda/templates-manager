@@ -57,11 +57,9 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
             <div className="flex flex-wrap w-full">
               <TextInput
                 isValid={isNameValid}
-                inputProps={{
-                  value: name,
-                  placeholder: 'Template Name',
-                  onChange: (e) => setName(e.target.value),
-                }}
+                value={name}
+                placeholder="Template Name"
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <DirectoryInput

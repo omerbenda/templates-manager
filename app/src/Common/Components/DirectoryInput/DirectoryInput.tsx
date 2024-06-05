@@ -28,11 +28,9 @@ const DirectoryInput = ({
     <div className="flex flex-wrap w-full">
       <TextInput
         isValid={isValid}
-        inputProps={{
-          value: value,
-          placeholder: placeholder,
-          onChange: (e) => onPathChange(e.target.value),
-        }}
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onPathChange(e.target.value)}
         className="rounded-r-none"
       />
       <div

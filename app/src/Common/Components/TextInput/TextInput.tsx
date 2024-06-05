@@ -1,13 +1,11 @@
 type Props = {
   isValid?: boolean;
-  className?: string;
-  inputProps?: React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  >;
-};
+} & React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
 
-const TextInput = ({ isValid, className, inputProps }: Props) => {
+const TextInput = ({ isValid, className, ...inputProps }: Props) => {
   return (
     <input
       type="text"
