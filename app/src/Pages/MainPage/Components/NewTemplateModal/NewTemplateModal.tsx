@@ -84,7 +84,7 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
               }
             `}
           >
-            Add Modal
+            Add Template
           </button>
         </div>
       </div>

@@ -10,14 +10,14 @@ type Props = {
 
 const Sidebar = ({ templates, onTemplateSelected, onNewTemplate }: Props) => {
   return (
-    <div className="border-r-2 border-neutral-600 w-full h-full overflow-hidden">
+    <div className="w-full h-full overflow-hidden">
       <div className="flex flex-col h-full overflow-y-auto no-scrollbar">
-        <SidebarButton buttonProps={{ onClick: onNewTemplate }}>
+        <SidebarButton onClick={onNewTemplate}>
           <IoIosAddCircleOutline className="text-4xl" />
         </SidebarButton>
         {templates.map((template: Template) => (
           <SidebarButton
-            buttonProps={{ onClick: () => onTemplateSelected(template) }}
+            onClick={() => onTemplateSelected(template)}
             key={template.name}
           >
             {template.name}

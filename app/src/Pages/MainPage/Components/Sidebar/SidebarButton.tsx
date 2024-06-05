@@ -1,13 +1,10 @@
-type Props = {
-  className?: string;
-  buttonProps?: React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >;
-  children: React.ReactNode;
-};
-
-const SidebarButton = ({ className, buttonProps, children }: Props) => {
+const SidebarButton = ({
+  className,
+  ...buttonProps
+}: React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>) => {
   return (
     <button
       className={`
@@ -21,9 +18,7 @@ const SidebarButton = ({ className, buttonProps, children }: Props) => {
         ${className || ''}
       `}
       {...buttonProps}
-    >
-      {children}
-    </button>
+    />
   );
 };
 
