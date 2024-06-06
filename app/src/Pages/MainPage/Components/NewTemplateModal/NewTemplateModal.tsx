@@ -78,8 +78,8 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
               ${
                 isInputValid
                   ? `
-                    bg-purple-500 hover:bg-purple-600 active:bg-purple-700
-                    dark:bg-blue-600 dark:hover:bg-blue-700 dark:active:bg-blue-800
+                    bg-blue-500 hover:bg-blue-600 active:bg-blue-700
+                    dark:bg-purple-600 dark:hover:bg-purple-700 dark:active:bg-purple-800
                     cursor-pointer text-white
                   `
                   : 'bg-gray-300 text-gray-400 cursor-not-allowed'

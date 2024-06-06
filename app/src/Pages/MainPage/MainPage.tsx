@@ -101,7 +101,7 @@ const MainPage = () => {
     <div
       className="
         flex overflow-hidden
-        dark:bg-neutral-950 dark:text-neutral-300
+        dark:bg-gray-950 dark:text-neutral-300
         w-full h-full
         dark
       "
