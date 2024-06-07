@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { config } from '../Common/Utilities/ConfigUtilities';
 
 interface GeneralState {
   isDarkMode: boolean;
@@ -6,7 +7,7 @@ interface GeneralState {
 }
 
 const useGeneralStore = create<GeneralState>((set) => ({
-  isDarkMode: true,
+  isDarkMode: Boolean(config.darkMode),
   setDarkMode: (value: boolean) => set((_state) => ({ isDarkMode: value })),
 }));
 
