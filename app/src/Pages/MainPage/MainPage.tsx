@@ -15,12 +15,15 @@ import { path } from '@tauri-apps/api';
 import TemplateViewer from './Components/TemplateViewer/TemplateViewer';
 import ActionsRow from './Components/ActionsRow/ActionsRow';
 import { open } from '@tauri-apps/api/dialog';
+import useGeneralStore from '../../Stores/GeneralStore';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [newTemplateModalOpen, setNewTemplateModalOpen] =
     useState<boolean>(false);
   const [currTemplate, setCurrTemplate] = useState<Template>();
+  const isDarkMode = useGeneralStore((state) => state.isDarkMode);
+  const setDarkMode = useGeneralStore((state) => state.setDarkMode);
 
   const fetchTemplates = async () => {
     if (await exists('', { dir: BaseDirectory.AppData })) {
@@ -98,8 +101,15 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div className="flex overflow-hidden w-full h-full">
-      <div className="border-r-2 border-neutral-600 w-44 min-w-44 h-full">
+    <div
+      className={`
+        flex overflow-hidden
+        dark:bg-gray-950 dark:text-neutral-300
+        w-full h-full
+        ${isDarkMode && 'dark'}
+      `}
+    >
+      <div className="border-r-2 border-neutral-900 w-44 min-w-44 h-full">
         <Sidebar
           templates={templates}
           onTemplateSelected={setCurrTemplate}
@@ -107,24 +117,23 @@ const MainPage = () => {
         />
       </div>
       <div className="flex flex-col flex-grow h-full">
+        <div className="border-b-2 border-neutral-900">
+          <ActionsRow
+            onTemplateApply={onApplyAction}
+            onTemplateDelete={deleteTemplate}
+            onDarkMode={() => setDarkMode(!isDarkMode)}
+            disableTemplateButtons={!currTemplate}
+            isDarkMode={isDarkMode}
+          />
+        </div>
         {currTemplate ? (
-          <>
-            <div className="h-4/5">
-              <TemplateViewer template={currTemplate} />
-            </div>
-            <div className="border-t-2 border-neutral-600 h-1/5">
-              <ActionsRow
-                onTemplateApply={onApplyAction}
-                onTemplateDelete={deleteTemplate}
-              />
-            </div>
-          </>
+          <TemplateViewer template={currTemplate} />
         ) : (
           <div
             className="
               flex justify-center items-center
-              text-gray-400 font-bold
-              select-none 
+              font-bold
+              select-none
               w-full h-full
             "
           >

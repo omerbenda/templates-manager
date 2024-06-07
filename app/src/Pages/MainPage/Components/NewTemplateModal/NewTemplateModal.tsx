@@ -38,7 +38,7 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
             relative left-1/2 top-1/2
             -translate-x-1/2 -translate-y-1/2
             rounded border-black border-2
-            bg-white
+            bg-white dark:bg-neutral-800
             w-3/4
           "
       >
@@ -57,11 +57,9 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
             <div className="flex flex-wrap w-full">
               <TextInput
                 isValid={isNameValid}
-                inputProps={{
-                  value: name,
-                  placeholder: 'Template Name',
-                  onChange: (e) => setName(e.target.value),
-                }}
+                value={name}
+                placeholder="Template Name"
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <DirectoryInput
@@ -79,7 +77,11 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
               duration-100
               ${
                 isInputValid
-                  ? 'bg-purple-500 hover:bg-purple-600 active:bg-purple-700 cursor-pointer text-white'
+                  ? `
+                    bg-blue-500 hover:bg-blue-600 active:bg-blue-700
+                    dark:bg-purple-600 dark:hover:bg-purple-700 dark:active:bg-purple-800
+                    cursor-pointer text-white
+                  `
                   : 'bg-gray-300 text-gray-400 cursor-not-allowed'
               }
             `}

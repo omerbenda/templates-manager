@@ -36,7 +36,7 @@ const Directory = ({ dirData }: Props) => {
           ))}
           {dirData.files.map((file: FileData) => (
             <div
-              className="flex items-center select-none w-full text-2xl gap-1"
+              className="flex items-center select-none w-full text-2xl text-nowrap gap-1"
               key={file.name}
             >
               <IoIosDocument className="w-10 min-w-10" /> {file.name}
