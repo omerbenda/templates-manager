@@ -1,3 +1,4 @@
+import DropdownMenu from '../../../../Common/Components/DropdownMenu/DropdownMenu';
 import ActionButton from './ActionButton';
 
 type Props = {
@@ -28,7 +29,11 @@ const ActionsRow = ({
         >
           Apply
         </ActionButton>
-        <ActionButton onClick={onDarkMode}>Dark Mode</ActionButton>
+        <DropdownMenu menuButton={<ActionButton>Settings</ActionButton>}>
+          <div className="flex flex-col">
+            <ActionButton onClick={onDarkMode}>Dark Mode</ActionButton>
+          </div>
+        </DropdownMenu>
       </div>
     </div>
   );
