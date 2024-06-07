@@ -1,5 +1,6 @@
 import { path } from '@tauri-apps/api';
 import { FileEntry, readDir, createDir, copyFile } from '@tauri-apps/api/fs';
+import DirectoryData from '../../Pages/MainPage/Types/DirectoryData';
 
 export const copyFromPath = async (origin: string, destination: string) => {
   const contents: FileEntry[] = await readDir(origin);
@@ -16,4 +17,22 @@ export const copyFromPath = async (origin: string, destination: string) => {
       }
     }
   });
+};
+
+export const parseEntryToDir = (entry: FileEntry): DirectoryData => {
+  if (!entry.name) {
+    throw Error('Invalid entry name');
+  } else if (!entry.children) {
+    throw Error('Entry is not a directory');
+  }
+
+  return {
+    name: entry.name,
+    subdirs: entry.children
+      .filter((childEntry: FileEntry) => childEntry.children)
+      .map(parseEntryToDir),
+    files: entry.children
+      .filter((childEntry: FileEntry) => !childEntry.children)
+      .map((entry: FileEntry) => ({ name: entry.name || '' })),
+  };
 };

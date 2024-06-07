@@ -2,43 +2,7 @@ import { useEffect, useState } from 'react';
 import Template from '../../Types/Template';
 import Directory from '../Directory/Directory';
 import DirectoryData from '../../Types/DirectoryData';
-import { FileEntry } from '@tauri-apps/api/fs';
-import FileData from '../../Types/FileData';
-import { readTemplateDir } from '../../../../Common/Utilities/TemplateUtilities';
-
-const parseEntryToDir = (entry: FileEntry): DirectoryData => {
-  if (!entry.name) {
-    throw Error('Invalid entry name');
-  } else if (!entry.children) {
-    throw Error('Entry is not a directory');
-  }
-
-  return {
-    name: entry.name,
-    subdirs: entry.children
-      .filter((childEntry: FileEntry) => childEntry.children)
-      .map(parseEntryToDir),
-    files: entry.children
-      .filter((childEntry: FileEntry) => !childEntry.children)
-      .map((entry: FileEntry) => ({ name: entry.name || '' })),
-  };
-};
-
-const getDirFromTemplate = async (
-  template: Template
-): Promise<DirectoryData> => {
-  const contents: FileEntry[] = await readTemplateDir(template);
-
-  return {
-    name: template.name,
-    subdirs: contents
-      .filter((entry: FileEntry) => entry.children)
-      .map<DirectoryData>(parseEntryToDir),
-    files: contents
-      .filter((entry: FileEntry) => !entry.children)
-      .map<FileData>((entry: FileEntry) => ({ name: entry.name || '' })),
-  };
-};
+import { getDirFromTemplate } from '../../../../Common/Utilities/TemplateUtilities';
 
 type Props = {
   template?: Template;

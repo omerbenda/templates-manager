@@ -2,8 +2,9 @@ import { IoIosClose } from 'react-icons/io';
 import Modal from '../../../../Common/Components/Modal/Modal';
 import DirectoryInput from '../../../../Common/Components/DirectoryInput/DirectoryInput';
 import { useEffect, useState } from 'react';
-import { BaseDirectory, exists } from '@tauri-apps/api/fs';
+import { exists } from '@tauri-apps/api/fs';
 import TextInput from '../../../../Common/Components/TextInput/TextInput';
+import { checkTemplateExists } from '../../../../Common/Utilities/TemplateUtilities';
 
 type Props = {
   open: boolean;
@@ -19,7 +20,7 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
 
   const validateInput = async () => {
     const pathExists = await exists(path);
-    const nameExists = await exists(name, { dir: BaseDirectory.AppData });
+    const nameExists = await checkTemplateExists(name);
 
     setPathValid(pathExists);
     setNameValid(!nameExists);

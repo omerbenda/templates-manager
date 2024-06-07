@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Components/Sidebar/Sidebar';
 import Template from './Types/Template';
-import { createDir } from '@tauri-apps/api/fs';
 import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
-import { path } from '@tauri-apps/api';
 import TemplateViewer from './Components/TemplateViewer/TemplateViewer';
 import ActionsRow from './Components/ActionsRow/ActionsRow';
 import { open } from '@tauri-apps/api/dialog';
 import useGeneralStore from '../../Stores/GeneralStore';
-import { copyFromPath } from '../../Common/Utilities/FsUtilities';
 import {
   readTemplates,
   createTemplate,
   deleteTemplate,
+  applyTemplate,
 } from '../../Common/Utilities/TemplateUtilities';
 
 const MainPage = () => {
@@ -47,12 +45,7 @@ const MainPage = () => {
         | undefined;
 
       if (destination) {
-        const destinationFolder = await path.join(
-          destination,
-          currTemplate.name
-        );
-        await createDir(destinationFolder);
-        await copyFromPath(currTemplate.path, destinationFolder);
+        applyTemplate(currTemplate, destination);
       }
     }
   };
