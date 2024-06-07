@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "templates-manager",
-    "version": "0.0.0"
+    "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
@@ -47,7 +47,9 @@
       "active": true,
       "targets": "all",
       "identifier": "templates-manager",
-      "icon": []
+      "icon": [
+        "icons/icon.ico"
+      ]
     }
   }
 }
