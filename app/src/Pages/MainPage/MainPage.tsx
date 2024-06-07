@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Components/Sidebar/Sidebar';
 import Template from './Types/Template';
-import {
-  BaseDirectory,
-  copyFile,
-  createDir,
-  exists,
-  FileEntry,
-  readDir,
-  removeDir,
-} from '@tauri-apps/api/fs';
+import { createDir } from '@tauri-apps/api/fs';
 import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
 import { path } from '@tauri-apps/api';
 import TemplateViewer from './Components/TemplateViewer/TemplateViewer';
 import ActionsRow from './Components/ActionsRow/ActionsRow';
 import { open } from '@tauri-apps/api/dialog';
 import useGeneralStore from '../../Stores/GeneralStore';
+import {
+  copyFromPath,
+  createTemplate,
+  deleteTemplate,
+  readTemplates,
+} from '../../Common/Utilities/FsUtilities';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -26,46 +24,20 @@ const MainPage = () => {
   const setDarkMode = useGeneralStore((state) => state.setDarkMode);
 
   const fetchTemplates = async () => {
-    if (await exists('', { dir: BaseDirectory.AppData })) {
-      const dirs: FileEntry[] = await readDir('', {
-        dir: BaseDirectory.AppData,
-      });
-      setTemplates(
-        dirs.map<Template>((dir) => ({ path: dir.path, name: dir.name || '' }))
-      );
-    }
-  };
+    const dirs = await readTemplates();
 
-  const createTemplate = async (name: string, originPath: string) => {
-    if (!(await exists('', { dir: BaseDirectory.AppData }))) {
-      await createDir('', { dir: BaseDirectory.AppData, recursive: true });
-    }
-
-    await createDir(name, { dir: BaseDirectory.AppData });
-    await copyFromPath(
-      originPath,
-      await path.join(await path.appDataDir(), name)
+    setTemplates(
+      dirs.map<Template>((dir) => ({
+        path: dir.path,
+        name: dir.name || '',
+      }))
     );
-
-    fetchTemplates();
-    setNewTemplateModalOpen(false);
   };
 
-  const copyFromPath = async (origin: string, destination: string) => {
-    const contents: FileEntry[] = await readDir(origin);
-
-    contents.forEach(async (entry: FileEntry) => {
-      if (entry.name) {
-        const newPath = await path.join(destination, entry.name);
-
-        if (entry.children) {
-          await createDir(newPath);
-          await copyFromPath(entry.path, newPath);
-        } else {
-          await copyFile(entry.path, newPath);
-        }
-      }
-    });
+  const createNewTemplate = async (name: string, originPath: string) => {
+    setNewTemplateModalOpen(false);
+    await createTemplate(name, originPath);
+    fetchTemplates();
   };
 
   const onApplyAction = async () => {
@@ -83,13 +55,6 @@ const MainPage = () => {
         await copyFromPath(currTemplate.path, destinationFolder);
       }
     }
-  };
-
-  const deleteTemplate = async (template: Template) => {
-    await removeDir(template.name, {
-      dir: BaseDirectory.AppData,
-      recursive: true,
-    });
   };
 
   const deleteCurrTemplate = async () => {
@@ -156,7 +121,7 @@ const MainPage = () => {
       <NewTemplateModal
         open={newTemplateModalOpen}
         closeHandler={() => setNewTemplateModalOpen(false)}
-        onCreateTemplate={createTemplate}
+        onCreateTemplate={createNewTemplate}
       />
     </div>
   );
