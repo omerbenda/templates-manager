@@ -117,19 +117,16 @@ const MainPage = () => {
         />
       </div>
       <div className="flex flex-col flex-grow h-full">
+        <div className="border-b-2 border-neutral-900">
+          <ActionsRow
+            onTemplateApply={onApplyAction}
+            onTemplateDelete={deleteTemplate}
+            onDarkMode={() => setDarkMode(!isDarkMode)}
+            disableTemplateButtons={!currTemplate}
+          />
+        </div>
         {currTemplate ? (
-          <>
-            <div className="h-4/5">
-              <TemplateViewer template={currTemplate} />
-            </div>
-            <div className="border-t-2 border-neutral-900 h-1/5">
-              <ActionsRow
-                onTemplateApply={onApplyAction}
-                onTemplateDelete={deleteTemplate}
-                onDarkMode={() => setDarkMode(!isDarkMode)}
-              />
-            </div>
-          </>
+          <TemplateViewer template={currTemplate} />
         ) : (
           <div
             className="
