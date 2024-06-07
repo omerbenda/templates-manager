@@ -15,12 +15,15 @@ import { path } from '@tauri-apps/api';
 import TemplateViewer from './Components/TemplateViewer/TemplateViewer';
 import ActionsRow from './Components/ActionsRow/ActionsRow';
 import { open } from '@tauri-apps/api/dialog';
+import useGeneralStore from '../../Stores/GeneralStore';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [newTemplateModalOpen, setNewTemplateModalOpen] =
     useState<boolean>(false);
   const [currTemplate, setCurrTemplate] = useState<Template>();
+  const isDarkMode = useGeneralStore((state) => state.isDarkMode);
+  const setDarkMode = useGeneralStore((state) => state.setDarkMode);
 
   const fetchTemplates = async () => {
     if (await exists('', { dir: BaseDirectory.AppData })) {
@@ -99,12 +102,12 @@ const MainPage = () => {
 
   return (
     <div
-      className="
+      className={`
         flex overflow-hidden
         dark:bg-gray-950 dark:text-neutral-300
         w-full h-full
-        dark
-      "
+        ${isDarkMode && 'dark'}
+      `}
     >
       <div className="border-r-2 border-neutral-900 w-44 min-w-44 h-full">
         <Sidebar
@@ -119,10 +122,11 @@ const MainPage = () => {
             <div className="h-4/5">
               <TemplateViewer template={currTemplate} />
             </div>
-            <div className="border-t-2 border-neutral-600 h-1/5">
+            <div className="border-t-2 border-neutral-900 h-1/5">
               <ActionsRow
                 onTemplateApply={onApplyAction}
                 onTemplateDelete={deleteTemplate}
+                onDarkMode={() => setDarkMode(!isDarkMode)}
               />
             </div>
           </>
