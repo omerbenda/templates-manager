@@ -123,6 +123,7 @@ const MainPage = () => {
             onTemplateDelete={deleteTemplate}
             onDarkMode={() => setDarkMode(!isDarkMode)}
             disableTemplateButtons={!currTemplate}
+            isDarkMode={isDarkMode}
           />
         </div>
         {currTemplate ? (

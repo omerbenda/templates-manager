@@ -1,3 +1,4 @@
+import { IoIosMoon, IoIosSunny } from 'react-icons/io';
 import DropdownMenu from '../../../../Common/Components/DropdownMenu/DropdownMenu';
 import ActionButton from './ActionButton';
 
@@ -6,6 +7,7 @@ type Props = {
   onTemplateDelete: () => void;
   onDarkMode: () => void;
   disableTemplateButtons: boolean;
+  isDarkMode: boolean;
 };
 
 const ActionsRow = ({
@@ -13,6 +15,7 @@ const ActionsRow = ({
   onTemplateDelete,
   onDarkMode,
   disableTemplateButtons,
+  isDarkMode,
 }: Props) => {
   return (
     <div className="w-full h-full">
@@ -31,7 +34,9 @@ const ActionsRow = ({
         </ActionButton>
         <DropdownMenu menuButton={<ActionButton>Settings</ActionButton>}>
           <div className="flex flex-col">
-            <ActionButton onClick={onDarkMode}>Dark Mode</ActionButton>
+            <ActionButton onClick={onDarkMode} className="flex justify-center">
+              {isDarkMode ? <IoIosMoon /> : <IoIosSunny />}
+            </ActionButton>
           </div>
         </DropdownMenu>
       </div>

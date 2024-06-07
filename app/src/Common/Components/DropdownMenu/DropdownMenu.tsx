@@ -29,7 +29,7 @@ const DropdownMenu = ({ menuButton, children, ...props }: Props) => {
     <div className="relative" {...props}>
       <div onClick={openBtnHandler}>{menuButton}</div>
       {open && (
-        <div className="absolute" onClick={(e) => e.stopPropagation()}>
+        <div className="absolute w-full" onClick={(e) => e.stopPropagation()}>
           {children}
         </div>
       )}
