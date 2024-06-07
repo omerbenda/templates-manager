@@ -14,9 +14,8 @@ const ActionButton = ({
         disabled:dark:bg-gray-800 disabled:dark:hover:bg-gray-800 disabled:dark:active:bg-gray-800
         disabled:text-neutral-300 disabled:dark:text-neutral-600
         disabled:cursor-not-allowed
-        border-2 border-gray-400 dark:border-neutral-950
-        duration-300 rounded-2xl select-none
-        p-3
+        duration-300 select-none
+        px-3 py-2
         ${className || ''}
       `}
       {...buttonProps}
