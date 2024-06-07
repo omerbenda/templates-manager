@@ -7,7 +7,7 @@ type Props = {
   HTMLDivElement
 >;
 
-const DropdownMenu = ({ menuButton, children, ...props }: Props) => {
+const DropdownMenu = ({ menuButton, children, className, ...props }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const openBtnHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -26,7 +26,7 @@ const DropdownMenu = ({ menuButton, children, ...props }: Props) => {
   }, []);
 
   return (
-    <div className="relative" {...props}>
+    <div className={`relative ${className || ''}`} {...props}>
       <div onClick={openBtnHandler}>{menuButton}</div>
       {open && (
         <div className="absolute w-full" onClick={(e) => e.stopPropagation()}>

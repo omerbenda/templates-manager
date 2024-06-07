@@ -85,15 +85,26 @@ const MainPage = () => {
     }
   };
 
-  const deleteTemplate = async () => {
+  const deleteTemplate = async (template: Template) => {
+    await removeDir(template.name, {
+      dir: BaseDirectory.AppData,
+      recursive: true,
+    });
+  };
+
+  const deleteCurrTemplate = async () => {
     if (currTemplate) {
-      await removeDir(currTemplate.name, {
-        dir: BaseDirectory.AppData,
-        recursive: true,
-      });
+      await deleteTemplate(currTemplate);
       await fetchTemplates();
       setCurrTemplate(undefined);
     }
+  };
+
+  const deleteAllTemplates = async () => {
+    await Promise.all(templates.map<Promise<void>>(deleteTemplate));
+
+    await fetchTemplates();
+    setCurrTemplate(undefined);
   };
 
   useEffect(() => {
@@ -120,8 +131,9 @@ const MainPage = () => {
         <div className="border-b-2 border-neutral-900">
           <ActionsRow
             onTemplateApply={onApplyAction}
-            onTemplateDelete={deleteTemplate}
+            onTemplateDelete={deleteCurrTemplate}
             onDarkMode={() => setDarkMode(!isDarkMode)}
+            onDeleteAll={deleteAllTemplates}
             disableTemplateButtons={!currTemplate}
             isDarkMode={isDarkMode}
           />
