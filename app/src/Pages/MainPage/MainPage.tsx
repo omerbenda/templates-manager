@@ -8,12 +8,12 @@ import TemplateViewer from './Components/TemplateViewer/TemplateViewer';
 import ActionsRow from './Components/ActionsRow/ActionsRow';
 import { open } from '@tauri-apps/api/dialog';
 import useGeneralStore from '../../Stores/GeneralStore';
+import { copyFromPath } from '../../Common/Utilities/FsUtilities';
 import {
-  copyFromPath,
+  readTemplates,
   createTemplate,
   deleteTemplate,
-  readTemplates,
-} from '../../Common/Utilities/FsUtilities';
+} from '../../Common/Utilities/TemplateUtilities';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);

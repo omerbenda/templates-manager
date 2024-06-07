@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import Template from '../../Types/Template';
 import Directory from '../Directory/Directory';
 import DirectoryData from '../../Types/DirectoryData';
-import { BaseDirectory, FileEntry, readDir } from '@tauri-apps/api/fs';
+import { FileEntry } from '@tauri-apps/api/fs';
 import FileData from '../../Types/FileData';
+import { readTemplateDir } from '../../../../Common/Utilities/TemplateUtilities';
 
 const parseEntryToDir = (entry: FileEntry): DirectoryData => {
   if (!entry.name) {
@@ -26,10 +27,7 @@ const parseEntryToDir = (entry: FileEntry): DirectoryData => {
 const getDirFromTemplate = async (
   template: Template
 ): Promise<DirectoryData> => {
-  const contents: FileEntry[] = await readDir(template.name, {
-    dir: BaseDirectory.AppData,
-    recursive: true,
-  });
+  const contents: FileEntry[] = await readTemplateDir(template);
 
   return {
     name: template.name,
