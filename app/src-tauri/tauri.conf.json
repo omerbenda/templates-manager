@@ -18,6 +18,8 @@
       },
       "fs": {
         "all": false,
+        "readFile": true,
+        "writeFile": true,
         "readDir": true,
         "copyFile": true,
         "createDir": true,

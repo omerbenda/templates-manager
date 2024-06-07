@@ -12,6 +12,7 @@ import {
   deleteTemplate,
   applyTemplate,
 } from '../../Common/Utilities/TemplateUtilities';
+import { updateConfig } from '../../Common/Utilities/ConfigUtilities';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -65,6 +66,13 @@ const MainPage = () => {
     setCurrTemplate(undefined);
   };
 
+  const changeDarkMode = () => {
+    const newValue = !isDarkMode;
+
+    setDarkMode(newValue);
+    updateConfig({ darkMode: newValue });
+  };
+
   useEffect(() => {
     fetchTemplates();
   }, []);
@@ -90,7 +98,7 @@ const MainPage = () => {
           <ActionsRow
             onTemplateApply={onApplyAction}
             onTemplateDelete={deleteCurrTemplate}
-            onDarkMode={() => setDarkMode(!isDarkMode)}
+            onDarkMode={changeDarkMode}
             onDeleteAll={deleteAllTemplates}
             disableTemplateButtons={!currTemplate}
             isDarkMode={isDarkMode}
