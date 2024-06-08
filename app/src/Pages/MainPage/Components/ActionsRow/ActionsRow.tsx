@@ -6,6 +6,7 @@ type Props = {
   onTemplateApply: () => void;
   onTemplateDelete: () => void;
   onDarkMode: () => void;
+  onOpenInfo: () => void;
   onDeleteAll: () => void;
   disableTemplateButtons: boolean;
   isDarkMode: boolean;
@@ -15,6 +16,7 @@ const ActionsRow = ({
   onTemplateApply,
   onTemplateDelete,
   onDarkMode,
+  onOpenInfo,
   onDeleteAll,
   disableTemplateButtons,
   isDarkMode,
@@ -41,6 +43,12 @@ const ActionsRow = ({
           <div className="flex flex-col">
             <ActionButton onClick={onDarkMode} className="flex justify-center">
               {isDarkMode ? <IoIosMoon /> : <IoIosSunny />}
+            </ActionButton>
+            <ActionButton
+              onClick={onOpenInfo}
+              className="text-nowrap text-md text-center"
+            >
+              Info
             </ActionButton>
             <ActionButton
               onClick={onDeleteAll}

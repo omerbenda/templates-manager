@@ -13,11 +13,13 @@ import {
   applyTemplate,
 } from '../../Common/Utilities/TemplateUtilities';
 import { updateConfig } from '../../Common/Utilities/ConfigUtilities';
+import InfoModal from '../../Common/Components/InfoModal/InfoModal';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [newTemplateModalOpen, setNewTemplateModalOpen] =
     useState<boolean>(false);
+  const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
   const [currTemplate, setCurrTemplate] = useState<Template>();
   const isDarkMode = useGeneralStore((state) => state.isDarkMode);
   const setDarkMode = useGeneralStore((state) => state.setDarkMode);
@@ -100,6 +102,7 @@ const MainPage = () => {
             onTemplateApply={onApplyAction}
             onTemplateDelete={deleteCurrTemplate}
             onDarkMode={changeDarkMode}
+            onOpenInfo={() => setInfoModalOpen(true)}
             onDeleteAll={deleteAllTemplates}
             disableTemplateButtons={!currTemplate}
             isDarkMode={isDarkMode}
@@ -124,6 +127,10 @@ const MainPage = () => {
         open={newTemplateModalOpen}
         closeHandler={() => setNewTemplateModalOpen(false)}
         onCreateTemplate={createNewTemplate}
+      />
+      <InfoModal
+        open={infoModalOpen}
+        closeHandler={() => setInfoModalOpen(false)}
       />
     </div>
   );
