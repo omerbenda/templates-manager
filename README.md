@@ -1,4 +1,4 @@
-# Templates Manaegr
+# Templates Manager
 
 An app for managing file templates
 
