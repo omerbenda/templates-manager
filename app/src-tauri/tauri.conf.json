@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "templates-manager",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "tauri": {
     "allowlist": {
@@ -37,7 +37,7 @@
     },
     "windows": [
       {
-        "title": "templates-manager",
+        "title": "Templates Manager",
         "width": 800,
         "height": 600
       }
