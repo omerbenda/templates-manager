@@ -7,6 +7,7 @@ import {
 import Config from '../Types/Config';
 
 const configAppdataPath = 'config.json';
+const defaultConfig: Config = { darkMode: true };
 
 export const saveConfig = async (configData: Config) => {
   await writeFile(configAppdataPath, JSON.stringify(configData), {
@@ -22,7 +23,7 @@ export const getConfigFile = async (): Promise<Config> => {
 
 export const getConfigFileOrCreate = async (): Promise<Config> => {
   if (!(await exists(configAppdataPath, { dir: BaseDirectory.AppData }))) {
-    saveConfig({ darkMode: true });
+    saveConfig(defaultConfig);
   }
 
   return getConfigFile();

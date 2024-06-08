@@ -30,6 +30,13 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
     validateInput();
   }, [path, name]);
 
+  useEffect(() => {
+    if (open) {
+      setPath('');
+      setName('');
+    }
+  }, [open]);
+
   const isInputValid = isPathValid && isNameValid;
 
   return (
