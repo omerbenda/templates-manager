@@ -26,7 +26,7 @@ const Sidebar = ({
             onClick={() => onTemplateSelected(template)}
             className={`${
               selectedTemplate?.name === template.name &&
-              'bg-neutral-400 dark:bg-indigo-800'
+              'text-lg font-bold underline underline-offset-2'
             }`}
             key={template.name}
           >
