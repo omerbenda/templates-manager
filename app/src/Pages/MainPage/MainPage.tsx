@@ -1,71 +1,44 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Components/Sidebar/Sidebar';
 import Template from './Types/Template';
-import {
-  BaseDirectory,
-  copyFile,
-  createDir,
-  exists,
-  FileEntry,
-  readDir,
-  removeDir,
-} from '@tauri-apps/api/fs';
 import NewTemplateModal from './Components/NewTemplateModal/NewTemplateModal';
-import { path } from '@tauri-apps/api';
 import TemplateViewer from './Components/TemplateViewer/TemplateViewer';
 import ActionsRow from './Components/ActionsRow/ActionsRow';
 import { open } from '@tauri-apps/api/dialog';
 import useGeneralStore from '../../Stores/GeneralStore';
+import {
+  readTemplates,
+  createTemplate,
+  deleteTemplate,
+  applyTemplate,
+} from '../../Common/Utilities/TemplateUtilities';
+import { updateConfig } from '../../Common/Utilities/ConfigUtilities';
+import InfoModal from '../../Common/Components/InfoModal/InfoModal';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [newTemplateModalOpen, setNewTemplateModalOpen] =
     useState<boolean>(false);
+  const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
   const [currTemplate, setCurrTemplate] = useState<Template>();
   const isDarkMode = useGeneralStore((state) => state.isDarkMode);
   const setDarkMode = useGeneralStore((state) => state.setDarkMode);
 
   const fetchTemplates = async () => {
-    if (await exists('', { dir: BaseDirectory.AppData })) {
-      const dirs: FileEntry[] = await readDir('', {
-        dir: BaseDirectory.AppData,
-      });
-      setTemplates(
-        dirs.map<Template>((dir) => ({ path: dir.path, name: dir.name || '' }))
-      );
-    }
-  };
+    const dirs = await readTemplates();
 
-  const createTemplate = async (name: string, originPath: string) => {
-    if (!(await exists('', { dir: BaseDirectory.AppData }))) {
-      await createDir('', { dir: BaseDirectory.AppData, recursive: true });
-    }
-
-    await createDir(name, { dir: BaseDirectory.AppData });
-    await copyFromPath(
-      originPath,
-      await path.join(await path.appDataDir(), name)
+    setTemplates(
+      dirs.map<Template>((dir) => ({
+        path: dir.path,
+        name: dir.name || '',
+      }))
     );
-
-    fetchTemplates();
-    setNewTemplateModalOpen(false);
   };
 
-  const copyFromPath = async (origin: string, destination: string) => {
-    const contents: FileEntry[] = await readDir(origin);
-
-    contents.forEach(async (entry: FileEntry) => {
-      if (entry.name) {
-        const newPath = await path.join(destination, entry.name);
-
-        if (entry.children) {
-          await createDir(newPath);
-          await copyFromPath(entry.path, newPath);
-        } else {
-          await copyFile(entry.path, newPath);
-        }
-      }
-    });
+  const createNewTemplate = async (name: string, originPath: string) => {
+    setNewTemplateModalOpen(false);
+    await createTemplate(name, originPath);
+    fetchTemplates();
   };
 
   const onApplyAction = async () => {
@@ -75,25 +48,31 @@ const MainPage = () => {
         | undefined;
 
       if (destination) {
-        const destinationFolder = await path.join(
-          destination,
-          currTemplate.name
-        );
-        await createDir(destinationFolder);
-        await copyFromPath(currTemplate.path, destinationFolder);
+        applyTemplate(currTemplate, destination);
       }
     }
   };
 
-  const deleteTemplate = async () => {
+  const deleteCurrTemplate = async () => {
     if (currTemplate) {
-      await removeDir(currTemplate.name, {
-        dir: BaseDirectory.AppData,
-        recursive: true,
-      });
+      await deleteTemplate(currTemplate);
       await fetchTemplates();
       setCurrTemplate(undefined);
     }
+  };
+
+  const deleteAllTemplates = async () => {
+    await Promise.all(templates.map<Promise<void>>(deleteTemplate));
+
+    await fetchTemplates();
+    setCurrTemplate(undefined);
+  };
+
+  const changeDarkMode = () => {
+    const newValue = !isDarkMode;
+
+    setDarkMode(newValue);
+    updateConfig({ darkMode: newValue });
   };
 
   useEffect(() => {
@@ -112,6 +91,7 @@ const MainPage = () => {
       <div className="border-r-2 border-neutral-900 w-44 min-w-44 h-full">
         <Sidebar
           templates={templates}
+          selectedTemplate={currTemplate}
           onTemplateSelected={setCurrTemplate}
           onNewTemplate={() => setNewTemplateModalOpen(true)}
         />
@@ -120,8 +100,10 @@ const MainPage = () => {
         <div className="border-b-2 border-neutral-900">
           <ActionsRow
             onTemplateApply={onApplyAction}
-            onTemplateDelete={deleteTemplate}
-            onDarkMode={() => setDarkMode(!isDarkMode)}
+            onTemplateDelete={deleteCurrTemplate}
+            onDarkMode={changeDarkMode}
+            onOpenInfo={() => setInfoModalOpen(true)}
+            onDeleteAll={deleteAllTemplates}
             disableTemplateButtons={!currTemplate}
             isDarkMode={isDarkMode}
           />
@@ -144,7 +126,11 @@ const MainPage = () => {
       <NewTemplateModal
         open={newTemplateModalOpen}
         closeHandler={() => setNewTemplateModalOpen(false)}
-        onCreateTemplate={createTemplate}
+        onCreateTemplate={createNewTemplate}
+      />
+      <InfoModal
+        open={infoModalOpen}
+        closeHandler={() => setInfoModalOpen(false)}
       />
     </div>
   );

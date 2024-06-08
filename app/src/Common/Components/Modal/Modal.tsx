@@ -3,7 +3,7 @@ import React, { MouseEvent } from 'react';
 type Props = {
   open: boolean;
   closeHandler: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const Modal = ({ open, closeHandler, children }: Props) => {
