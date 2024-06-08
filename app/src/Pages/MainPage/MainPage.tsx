@@ -89,6 +89,7 @@ const MainPage = () => {
       <div className="border-r-2 border-neutral-900 w-44 min-w-44 h-full">
         <Sidebar
           templates={templates}
+          selectedTemplate={currTemplate}
           onTemplateSelected={setCurrTemplate}
           onNewTemplate={() => setNewTemplateModalOpen(true)}
         />
