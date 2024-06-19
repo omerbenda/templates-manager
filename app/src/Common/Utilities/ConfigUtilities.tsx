@@ -1,5 +1,6 @@
 import {
   BaseDirectory,
+  createDir,
   exists,
   readTextFile,
   writeFile,
@@ -9,13 +10,22 @@ import Config from '../Types/Config';
 const configAppdataPath = 'config.json';
 const defaultConfig: Config = { darkMode: true };
 
+export const createConfigPathIfNotExists = async () => {
+  if (!(await exists('', { dir: BaseDirectory.AppData }))) {
+    await createDir('', { dir: BaseDirectory.AppData, recursive: true });
+  }
+};
+
 export const saveConfig = async (configData: Config) => {
+  await createConfigPathIfNotExists();
   await writeFile(configAppdataPath, JSON.stringify(configData), {
     dir: BaseDirectory.AppData,
   });
 };
 
 export const getConfigFile = async (): Promise<Config> => {
+  await createConfigPathIfNotExists();
+
   return (await JSON.parse(
     await readTextFile(configAppdataPath, { dir: BaseDirectory.AppData })
   )) as Config;
