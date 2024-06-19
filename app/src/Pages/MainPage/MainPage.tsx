@@ -88,7 +88,7 @@ const MainPage = () => {
         ${isDarkMode && 'dark'}
       `}
     >
-      <div className="border-r-2 border-neutral-900 w-44 min-w-44 h-full">
+      <div className="border-r-2 border-neutral-900 min-w-20 w-44 h-full overflow-hidden resize-x">
         <Sidebar
           templates={templates}
           selectedTemplate={currTemplate}

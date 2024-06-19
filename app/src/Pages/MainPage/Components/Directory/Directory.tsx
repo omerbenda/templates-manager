@@ -18,7 +18,7 @@ const Directory = ({ dirData }: Props) => {
         onClick={() => setOpen((curr) => !curr)}
         className="select-none cursor-pointer w-full text-2xl"
       >
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 text-nowrap">
           <div
             className={`flex flex-col transform duration-300 ${
               isOpen ? 'rotate-90' : 'rotate-0'
