@@ -30,7 +30,9 @@ const Sidebar = ({
             }`}
             key={template.name}
           >
-            {template.name}
+            <div className="w-full overflow-hidden text-ellipsis">
+              {template.name}
+            </div>
           </SidebarButton>
         ))}
       </div>
