@@ -114,7 +114,7 @@ const MainPage = () => {
           <div
             className="
               flex justify-center items-center
-              font-bold
+              font-bold text-center
               select-none
               w-full h-full
             "
