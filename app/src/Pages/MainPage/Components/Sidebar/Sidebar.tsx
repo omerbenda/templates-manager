@@ -18,7 +18,7 @@ const Sidebar = ({
   return (
     <div className="flex flex-col w-full h-full overflow-hidden">
       <div className="w-full">
-        <SidebarButton onClick={onNewTemplate} className="w-full">
+        <SidebarButton onClick={onNewTemplate}>
           <IoIosAddCircleOutline className="text-4xl" />
         </SidebarButton>
       </div>
