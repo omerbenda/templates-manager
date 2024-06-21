@@ -11,6 +11,7 @@ const SidebarButton = ({
         flex flex-col
         justify-center items-center
         min-h-16
+        w-full
         cursor-pointer select-none
         duration-300
         border-b-2 border-gray-500 dark:border-neutral-900
