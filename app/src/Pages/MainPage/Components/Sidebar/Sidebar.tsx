@@ -17,11 +17,9 @@ const Sidebar = ({
 }: Props) => {
   return (
     <div className="flex flex-col w-full h-full overflow-hidden">
-      <div className="w-full">
-        <SidebarButton onClick={onNewTemplate}>
-          <IoIosAddCircleOutline className="text-4xl" />
-        </SidebarButton>
-      </div>
+      <SidebarButton onClick={onNewTemplate}>
+        <IoIosAddCircleOutline className="text-4xl" />
+      </SidebarButton>
       <div className="flex flex-col overflow-x-hidden overflow-y-auto no-scrollbar">
         {templates.map((template: Template) => (
           <SidebarButton
