@@ -11,6 +11,8 @@ const Modal = ({ open, closeHandler, children }: Props) => {
     if (e.currentTarget === e.target) {
       closeHandler();
     }
+
+    e.stopPropagation();
   };
 
   return (
