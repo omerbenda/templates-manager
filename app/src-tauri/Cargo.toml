@@ -1,6 +1,6 @@
 [package]
 name = "templates-manager"
-version = "0.3.0"
+version = "0.3.1"
 description = "An app for managing file templates"
 authors = ["omerbenda"]
 edition = "2021"
