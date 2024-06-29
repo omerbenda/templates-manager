@@ -10,10 +10,11 @@ const TextInput = ({ isValid, className, ...inputProps }: Props) => {
     <input
       type="text"
       className={`
-        grow shadow rounded p-1
+        shadow rounded p-1
         text-gray-700 dark:text-neutral-400 font-medium
         focus:outline-none border-2
         dark:bg-gray-900
+        w-full h-full
         ${
           isValid !== false
             ? 'border-black focus:border-black'

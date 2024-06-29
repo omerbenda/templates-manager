@@ -26,13 +26,15 @@ const DirectoryInput = ({
 
   return (
     <div className="flex flex-wrap w-full">
-      <TextInput
-        isValid={isValid}
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onPathChange(e.target.value)}
-        className="rounded-r-none"
-      />
+      <div className="grow">
+        <TextInput
+          isValid={isValid}
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => onPathChange(e.target.value)}
+          className="rounded-r-none"
+        />
+      </div>
       <div
         onClick={chooseFolder}
         className="
