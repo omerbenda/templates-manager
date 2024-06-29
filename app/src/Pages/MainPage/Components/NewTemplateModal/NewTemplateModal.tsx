@@ -9,7 +9,11 @@ import { checkTemplateExists } from '../../../../Common/Utilities/TemplateUtilit
 type Props = {
   open: boolean;
   closeHandler: () => void;
-  onCreateTemplate: (name: string, path: string) => void;
+  onCreateTemplate: (
+    name: string,
+    path: string,
+    ignoredFilesRegex?: RegExp
+  ) => void;
 };
 
 const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
@@ -17,6 +21,8 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
   const [isPathValid, setPathValid] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [isNameValid, setNameValid] = useState<boolean>(false);
+  const [ignoredPaths, setIgnoredPaths] = useState<string>('');
+  const [isIgnoredPathsValid, setIgnoredPathsValid] = useState<boolean>(true);
 
   const validateInput = async () => {
     const pathExists = await exists(path);
@@ -31,9 +37,19 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
   }, [path, name]);
 
   useEffect(() => {
+    try {
+      new RegExp(ignoredPaths);
+      setIgnoredPathsValid(true);
+    } catch (e) {
+      setIgnoredPathsValid(false);
+    }
+  }, [ignoredPaths]);
+
+  useEffect(() => {
     if (open) {
       setPath('');
       setName('');
+      setIgnoredPaths('');
     }
   }, [open]);
 
@@ -53,7 +69,9 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
         <div className="flex flex-col items-center w-full h-full p-1 gap-2">
           <div className="grid grid-cols-3 items-center w-full">
             <div />
-            <div className="text-center text-xl font-bold">New Template</div>
+            <div className="text-center text-xl font-bold select-none">
+              New Template
+            </div>
             <div className="flex justify-end">
               <IoIosClose
                 onClick={closeHandler}
@@ -76,9 +94,21 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
               placeholder="Path to New Template"
               isValid={isPathValid}
             />
+            <TextInput
+              value={ignoredPaths}
+              placeholder="Ignored Paths (Regex)"
+              onChange={(e) => setIgnoredPaths(e.target.value)}
+              isValid={isIgnoredPathsValid}
+            />
           </div>
           <button
-            onClick={() => onCreateTemplate(name, path)}
+            onClick={() =>
+              onCreateTemplate(
+                name,
+                path,
+                ignoredPaths ? new RegExp(ignoredPaths) : undefined
+              )
+            }
             disabled={!isInputValid}
             className={`
               rounded p-3 select-none

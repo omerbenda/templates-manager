@@ -2,8 +2,16 @@ import { path } from '@tauri-apps/api';
 import { FileEntry, readDir, createDir, copyFile } from '@tauri-apps/api/fs';
 import DirectoryData from '../../Pages/MainPage/Types/DirectoryData';
 
-export const copyFromPath = async (origin: string, destination: string) => {
-  const contents: FileEntry[] = await readDir(origin);
+export const copyFromPath = async (
+  origin: string,
+  destination: string,
+  fileFilter?: RegExp
+) => {
+  const contents: FileEntry[] = fileFilter
+    ? (await readDir(origin)).filter(
+        (entry: FileEntry) => !fileFilter.test(entry.name || '')
+      )
+    : await readDir(origin);
 
   contents.forEach(async (entry: FileEntry) => {
     if (entry.name) {
@@ -11,7 +19,7 @@ export const copyFromPath = async (origin: string, destination: string) => {
 
       if (entry.children) {
         await createDir(newPath);
-        await copyFromPath(entry.path, newPath);
+        await copyFromPath(entry.path, newPath, fileFilter);
       } else {
         await copyFile(entry.path, newPath);
       }
