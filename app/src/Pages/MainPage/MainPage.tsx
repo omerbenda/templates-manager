@@ -35,9 +35,13 @@ const MainPage = () => {
     );
   };
 
-  const createNewTemplate = async (name: string, originPath: string) => {
+  const createNewTemplate = async (
+    name: string,
+    originPath: string,
+    ignoredPathsRegex?: RegExp
+  ) => {
+    await createTemplate(name, originPath, ignoredPathsRegex);
     setNewTemplateModalOpen(false);
-    await createTemplate(name, originPath);
     fetchTemplates();
   };
 
