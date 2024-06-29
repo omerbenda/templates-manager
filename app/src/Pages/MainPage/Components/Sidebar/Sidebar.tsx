@@ -29,13 +29,13 @@ const Sidebar = ({
           value={templateFilter}
           onChange={(e) => setTemplateFilter(e.target.value)}
           placeholder="Search"
-          className="border-0 rounded-none h-full"
+          className="border-none rounded-none h-full"
         />
       </div>
       <div className="flex flex-col overflow-x-hidden overflow-y-auto no-scrollbar">
         {templates
           .filter((template: Template) =>
-            template.name.includes(templateFilter)
+            template.name.toLowerCase().includes(templateFilter.toLowerCase())
           )
           .map((template: Template) => (
             <SidebarButton
