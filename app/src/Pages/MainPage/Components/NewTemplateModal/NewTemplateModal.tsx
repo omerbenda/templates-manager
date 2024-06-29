@@ -53,7 +53,7 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
     }
   }, [open]);
 
-  const isInputValid = isPathValid && isNameValid;
+  const isInputValid = isPathValid && isNameValid && isIgnoredPathsValid;
 
   return (
     <Modal open={open} closeHandler={closeHandler}>
@@ -82,7 +82,7 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
           <div className="flex flex-col grow w-3/4 gap-2">
             <div className="flex flex-wrap w-full">
               <TextInput
-                isValid={isNameValid}
+                isInvalid={!isNameValid}
                 value={name}
                 placeholder="Template Name"
                 onChange={(e) => setName(e.target.value)}
@@ -92,13 +92,13 @@ const NewTemplateModal = ({ open, closeHandler, onCreateTemplate }: Props) => {
               value={path}
               onPathChange={setPath}
               placeholder="Path to New Template"
-              isValid={isPathValid}
+              isInvalid={!isPathValid}
             />
             <TextInput
               value={ignoredPaths}
               placeholder="Ignored Paths (Regex)"
               onChange={(e) => setIgnoredPaths(e.target.value)}
-              isValid={isIgnoredPathsValid}
+              isInvalid={!isIgnoredPathsValid}
             />
           </div>
           <button
