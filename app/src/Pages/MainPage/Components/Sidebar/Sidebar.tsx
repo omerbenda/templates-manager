@@ -24,12 +24,12 @@ const Sidebar = ({
       <SidebarButton onClick={onNewTemplate}>
         <IoIosAddCircleOutline className="text-4xl" />
       </SidebarButton>
-      <div className="h-8">
+      <div className="h-8 border-b-2 border-b-black">
         <TextInput
           value={templateFilter}
           onChange={(e) => setTemplateFilter(e.target.value)}
           placeholder="Search"
-          className="border-0 rounded-none"
+          className="border-0 rounded-none h-full"
         />
       </div>
       <div className="flex flex-col overflow-x-hidden overflow-y-auto no-scrollbar">
