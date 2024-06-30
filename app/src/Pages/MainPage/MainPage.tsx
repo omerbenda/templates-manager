@@ -23,6 +23,8 @@ const MainPage = () => {
   const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
   const [currTemplate, setCurrTemplate] = useState<Template>();
   const [templateToDelete, setTemplateToDelete] = useState<Template>();
+  const [isDeleteAllModalOpen, setDeleteAllModalOpen] =
+    useState<boolean>(false);
   const isDarkMode = useGeneralStore((state) => state.isDarkMode);
   const setDarkMode = useGeneralStore((state) => state.setDarkMode);
 
@@ -82,11 +84,24 @@ const MainPage = () => {
     }
   };
 
+  const onDeleteAllRequest = () => {
+    setDeleteAllModalOpen(true);
+  };
+
+  const onDeleteAllResponse = (confirmed: boolean) => {
+    if (confirmed) {
+      deleteAllTemplates();
+    }
+
+    setDeleteAllModalOpen(false);
+  };
+
   const deleteAllTemplates = async () => {
     await Promise.all(templates.map<Promise<void>>(deleteTemplate));
 
     await fetchTemplates();
     setCurrTemplate(undefined);
+    setTemplateToDelete(undefined);
   };
 
   const changeDarkMode = () => {
@@ -124,7 +139,7 @@ const MainPage = () => {
             onTemplateDelete={deleteCurrTemplate}
             onDarkMode={changeDarkMode}
             onOpenInfo={() => setInfoModalOpen(true)}
-            onDeleteAll={deleteAllTemplates}
+            onDeleteAll={onDeleteAllRequest}
             disableTemplateButtons={!currTemplate}
             isDarkMode={isDarkMode}
           />
@@ -166,6 +181,24 @@ const MainPage = () => {
           </div>
           <div className="text-start">
             Permanently delete this template? You can't undo this.
+          </div>
+        </div>
+      </ConfirmModal>
+      <ConfirmModal
+        open={isDeleteAllModalOpen}
+        closeHandler={() => {
+          setDeleteAllModalOpen(false);
+        }}
+        onResponse={onDeleteAllResponse}
+      >
+        <div className="select-none">
+          <div className="text-start text-base font-semibold">
+            Delete All Template
+          </div>
+          <div className="text-start">
+            Permanently delete {templates.length}{' '}
+            {templates.length > 1 ? 'templates' : 'template'}? You can't undo
+            this.
           </div>
         </div>
       </ConfirmModal>
