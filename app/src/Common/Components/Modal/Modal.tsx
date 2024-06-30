@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useRef } from 'react';
 
 type Props = {
   open: boolean;
@@ -7,17 +7,27 @@ type Props = {
 };
 
 const Modal = ({ open, closeHandler, children }: Props) => {
+  const mouseDownTargetRef = useRef<EventTarget>();
+
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.currentTarget === e.target) {
+    if (
+      e.currentTarget === e.target &&
+      e.currentTarget === mouseDownTargetRef.current
+    ) {
       closeHandler();
     }
 
     e.stopPropagation();
   };
 
+  const onMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    mouseDownTargetRef.current = e.target;
+  };
+
   return (
     <div
       onClick={handleClick}
+      onMouseDown={onMouseDown}
       className={`
         absolute w-full h-full
         bg-black bg-opacity-25
