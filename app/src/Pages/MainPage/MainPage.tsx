@@ -14,7 +14,8 @@ import {
 } from '../../Common/Utilities/TemplateUtilities';
 import { updateConfig } from '../../Common/Utilities/ConfigUtilities';
 import InfoModal from '../../Common/Components/InfoModal/InfoModal';
-import ConfirmModal from '../../Common/Components/ConfirmModal/ConfirmModal';
+import DeleteTemplateModal from './Components/ConfirmModals/DeleteTemplateModal';
+import DeleteAllTemplatesModal from './Components/ConfirmModals/DeleteAllTemplatesModal';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -168,40 +169,21 @@ const MainPage = () => {
         open={infoModalOpen}
         closeHandler={() => setInfoModalOpen(false)}
       />
-      <ConfirmModal
+      <DeleteTemplateModal
         open={Boolean(templateToDelete)}
         closeHandler={() => {
           setTemplateToDelete(undefined);
         }}
         onResponse={onTemplateDeleteResponse}
-      >
-        <div className="select-none">
-          <div className="text-start text-base font-semibold">
-            Delete Template
-          </div>
-          <div className="text-start">
-            Permanently delete this template? You can't undo this.
-          </div>
-        </div>
-      </ConfirmModal>
-      <ConfirmModal
+      />
+      <DeleteAllTemplatesModal
         open={isDeleteAllModalOpen}
         closeHandler={() => {
           setDeleteAllModalOpen(false);
         }}
         onResponse={onDeleteAllResponse}
-      >
-        <div className="select-none">
-          <div className="text-start text-base font-semibold">
-            Delete All Template
-          </div>
-          <div className="text-start">
-            Permanently delete {templates.length}{' '}
-            {templates.length > 1 ? 'templates' : 'template'}? You can't undo
-            this.
-          </div>
-        </div>
-      </ConfirmModal>
+        templatesCount={templates.length}
+      />
     </div>
   );
 };
