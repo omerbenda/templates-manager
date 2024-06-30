@@ -14,6 +14,7 @@ import {
 } from '../../Common/Utilities/TemplateUtilities';
 import { updateConfig } from '../../Common/Utilities/ConfigUtilities';
 import InfoModal from '../../Common/Components/InfoModal/InfoModal';
+import ConfirmModal from '../../Common/Components/ConfirmModal/ConfirmModal';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -21,6 +22,7 @@ const MainPage = () => {
     useState<boolean>(false);
   const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
   const [currTemplate, setCurrTemplate] = useState<Template>();
+  const [templateToDelete, setTemplateToDelete] = useState<Template>();
   const isDarkMode = useGeneralStore((state) => state.isDarkMode);
   const setDarkMode = useGeneralStore((state) => state.setDarkMode);
 
@@ -59,9 +61,24 @@ const MainPage = () => {
 
   const deleteCurrTemplate = async () => {
     if (currTemplate) {
-      await deleteTemplate(currTemplate);
+      setTemplateToDelete(currTemplate);
+    }
+  };
+
+  const onTemplateDeleteResponse = (confirmed: boolean) => {
+    if (confirmed) {
+      deleteTemplateToDelete();
+    } else {
+      setTemplateToDelete(undefined);
+    }
+  };
+
+  const deleteTemplateToDelete = async () => {
+    if (templateToDelete) {
+      await deleteTemplate(templateToDelete);
       await fetchTemplates();
       setCurrTemplate(undefined);
+      setTemplateToDelete(undefined);
     }
   };
 
@@ -136,6 +153,22 @@ const MainPage = () => {
         open={infoModalOpen}
         closeHandler={() => setInfoModalOpen(false)}
       />
+      <ConfirmModal
+        open={Boolean(templateToDelete)}
+        closeHandler={() => {
+          setTemplateToDelete(undefined);
+        }}
+        onResponse={onTemplateDeleteResponse}
+      >
+        <div className="select-none">
+          <div className="text-start text-base font-semibold">
+            Delete Template
+          </div>
+          <div className="text-start">
+            Permanently delete this template? You can't undo this.
+          </div>
+        </div>
+      </ConfirmModal>
     </div>
   );
 };
