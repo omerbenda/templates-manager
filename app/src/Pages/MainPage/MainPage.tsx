@@ -141,6 +141,7 @@ const MainPage = () => {
             onDarkMode={changeDarkMode}
             onOpenInfo={() => setInfoModalOpen(true)}
             onDeleteAll={onDeleteAllRequest}
+            canDeleteAll={templates.length > 0}
             disableTemplateButtons={!currTemplate}
             isDarkMode={isDarkMode}
           />

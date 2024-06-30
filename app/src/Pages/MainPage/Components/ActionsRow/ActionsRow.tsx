@@ -8,6 +8,7 @@ type Props = {
   onDarkMode: () => void;
   onOpenInfo: () => void;
   onDeleteAll: () => void;
+  canDeleteAll: boolean;
   disableTemplateButtons: boolean;
   isDarkMode: boolean;
 };
@@ -18,6 +19,7 @@ const ActionsRow = ({
   onDarkMode,
   onOpenInfo,
   onDeleteAll,
+  canDeleteAll,
   disableTemplateButtons,
   isDarkMode,
 }: Props) => {
@@ -53,6 +55,7 @@ const ActionsRow = ({
             <ActionButton
               onClick={onDeleteAll}
               className="text-nowrap text-md text-center"
+              disabled={!canDeleteAll}
             >
               Delete All
             </ActionButton>
