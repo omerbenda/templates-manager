@@ -125,6 +125,7 @@ const MainPage = () => {
         ${isDarkMode && 'dark'}
       `}
     >
+      this should show along version 0.4.0
       <div className="border-r-2 border-neutral-900 min-w-20 w-44 h-full overflow-hidden resize-x">
         <Sidebar
           templates={templates}
