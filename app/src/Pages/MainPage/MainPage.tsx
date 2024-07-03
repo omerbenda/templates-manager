@@ -14,6 +14,8 @@ import {
 } from '../../Common/Utilities/TemplateUtilities';
 import { updateConfig } from '../../Common/Utilities/ConfigUtilities';
 import InfoModal from '../../Common/Components/InfoModal/InfoModal';
+import DeleteTemplateModal from './Components/ConfirmModals/DeleteTemplateModal';
+import DeleteAllTemplatesModal from './Components/ConfirmModals/DeleteAllTemplatesModal';
 
 const MainPage = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -21,6 +23,9 @@ const MainPage = () => {
     useState<boolean>(false);
   const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
   const [currTemplate, setCurrTemplate] = useState<Template>();
+  const [templateToDelete, setTemplateToDelete] = useState<Template>();
+  const [isDeleteAllModalOpen, setDeleteAllModalOpen] =
+    useState<boolean>(false);
   const isDarkMode = useGeneralStore((state) => state.isDarkMode);
   const setDarkMode = useGeneralStore((state) => state.setDarkMode);
 
@@ -35,9 +40,13 @@ const MainPage = () => {
     );
   };
 
-  const createNewTemplate = async (name: string, originPath: string) => {
+  const createNewTemplate = async (
+    name: string,
+    originPath: string,
+    ignoredPathsRegex?: RegExp
+  ) => {
+    await createTemplate(name, originPath, ignoredPathsRegex);
     setNewTemplateModalOpen(false);
-    await createTemplate(name, originPath);
     fetchTemplates();
   };
 
@@ -55,10 +64,37 @@ const MainPage = () => {
 
   const deleteCurrTemplate = async () => {
     if (currTemplate) {
-      await deleteTemplate(currTemplate);
+      setTemplateToDelete(currTemplate);
+    }
+  };
+
+  const onTemplateDeleteResponse = (confirmed: boolean) => {
+    if (confirmed) {
+      deleteTemplateToDelete();
+    } else {
+      setTemplateToDelete(undefined);
+    }
+  };
+
+  const deleteTemplateToDelete = async () => {
+    if (templateToDelete) {
+      await deleteTemplate(templateToDelete);
       await fetchTemplates();
       setCurrTemplate(undefined);
+      setTemplateToDelete(undefined);
     }
+  };
+
+  const onDeleteAllRequest = () => {
+    setDeleteAllModalOpen(true);
+  };
+
+  const onDeleteAllResponse = (confirmed: boolean) => {
+    if (confirmed) {
+      deleteAllTemplates();
+    }
+
+    setDeleteAllModalOpen(false);
   };
 
   const deleteAllTemplates = async () => {
@@ -66,6 +102,7 @@ const MainPage = () => {
 
     await fetchTemplates();
     setCurrTemplate(undefined);
+    setTemplateToDelete(undefined);
   };
 
   const changeDarkMode = () => {
@@ -103,7 +140,8 @@ const MainPage = () => {
             onTemplateDelete={deleteCurrTemplate}
             onDarkMode={changeDarkMode}
             onOpenInfo={() => setInfoModalOpen(true)}
-            onDeleteAll={deleteAllTemplates}
+            onDeleteAll={onDeleteAllRequest}
+            canDeleteAll={templates.length > 0}
             disableTemplateButtons={!currTemplate}
             isDarkMode={isDarkMode}
           />
@@ -131,6 +169,21 @@ const MainPage = () => {
       <InfoModal
         open={infoModalOpen}
         closeHandler={() => setInfoModalOpen(false)}
+      />
+      <DeleteTemplateModal
+        open={Boolean(templateToDelete)}
+        closeHandler={() => {
+          setTemplateToDelete(undefined);
+        }}
+        onResponse={onTemplateDeleteResponse}
+      />
+      <DeleteAllTemplatesModal
+        open={isDeleteAllModalOpen}
+        closeHandler={() => {
+          setDeleteAllModalOpen(false);
+        }}
+        onResponse={onDeleteAllResponse}
+        templatesCount={templates.length}
       />
     </div>
   );

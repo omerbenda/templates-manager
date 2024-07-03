@@ -39,7 +39,11 @@ export const createTemplatesDirectory = async () => {
   });
 };
 
-export const createTemplate = async (name: string, originPath: string) => {
+export const createTemplate = async (
+  name: string,
+  originPath: string,
+  ignoredFilesRegex?: RegExp
+) => {
   if (!(await checkTemplatesDirectoryExists())) {
     await createTemplatesDirectory();
   }
@@ -49,7 +53,8 @@ export const createTemplate = async (name: string, originPath: string) => {
   await createDir(relativeWritePath, { dir: BaseDirectory.AppData });
   await copyFromPath(
     originPath,
-    await path.join(await path.appDataDir(), relativeWritePath)
+    await path.join(await path.appDataDir(), relativeWritePath),
+    ignoredFilesRegex
   );
 };
 

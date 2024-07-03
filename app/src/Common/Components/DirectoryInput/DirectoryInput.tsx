@@ -4,14 +4,14 @@ import TextInput from '../TextInput/TextInput';
 type Props = {
   value: string;
   placeholder?: string;
-  isValid?: boolean;
+  isInvalid?: boolean;
   onPathChange: (path: string) => void;
 };
 
 const DirectoryInput = ({
   value,
   placeholder,
-  isValid,
+  isInvalid,
   onPathChange,
 }: Props) => {
   const chooseFolder = async () => {
@@ -26,17 +26,19 @@ const DirectoryInput = ({
 
   return (
     <div className="flex flex-wrap w-full">
-      <TextInput
-        isValid={isValid}
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onPathChange(e.target.value)}
-        className="rounded-r-none"
-      />
+      <div className="grow">
+        <TextInput
+          isInvalid={isInvalid}
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => onPathChange(e.target.value)}
+          className="rounded-r-none"
+        />
+      </div>
       <div
         onClick={chooseFolder}
         className="
-          shadow select-none cursor-pointer duration-100
+          select-none cursor-pointer duration-100
           bg-gray-100 hover:bg-gray-200 active:bg-gray-300
           dark:bg-gray-700 dark:hover:bg-gray-800 dark:active:bg-gray-900
           rounded rounded-l-none

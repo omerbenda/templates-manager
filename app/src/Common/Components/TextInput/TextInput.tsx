@@ -1,23 +1,24 @@
 type Props = {
-  isValid?: boolean;
+  isInvalid?: boolean;
 } & React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >;
 
-const TextInput = ({ isValid, className, ...inputProps }: Props) => {
+const TextInput = ({ isInvalid, className, ...inputProps }: Props) => {
   return (
     <input
       type="text"
       className={`
-        grow shadow rounded p-1
+        shadow rounded p-1
         text-gray-700 dark:text-neutral-400 font-medium
         focus:outline-none border-2
         dark:bg-gray-900
+        w-full h-full
         ${
-          isValid !== false
-            ? 'border-black focus:border-black'
-            : 'border-red-600 focus:border-red-800'
+          isInvalid
+            ? 'border-red-600 focus:border-red-800'
+            : 'border-black focus:border-black'
         }
         ${className || ''}
       `}
